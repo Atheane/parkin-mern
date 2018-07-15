@@ -2,5 +2,11 @@
   "dependencies": {
     "express": "^4.16.3",
     "socket.io": "^2.1.1"
-  }
+  },
+  "name": "parkin-mesn",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Atheane/parkin-mesn.git",
+  "author": "Elodie Royant <eroyant@gmail.com>",
+  "license": "MIT"
 }
