@@ -6,14 +6,11 @@ var Schema = mongoose.Schema;
 
 var SpotSchema = new Schema(
   { 
-    coords: { 
-        latitude: { type: Number, required: true }, 
-        longitude: { type: Number, required: true }
-    },
+    loc: { type: { type: String }, coordinates: [] },
     name: {type: String, min: 3, max: 100},
-    dateInscription: {type: Date},
   }, { collection: 'spots' }
 )
+SpotSchema.index({ loc: '2dsphere' });
 
 module.exports = mongoose.model('Spot', SpotSchema);
 
