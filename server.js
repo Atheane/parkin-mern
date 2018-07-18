@@ -39,25 +39,35 @@ const formatSpots = (spot) => {
     } 
 }
 
+let userLoc;
+
 io.on('connection', (socket => {
     console.log('A client just joined on', socket.id)
-    Spot.aggregate(
-        [
-            { "$geoNear": {
-                "near": {
-                    "type": "Point",
-                    "coordinates": [2.306993, 48.888187]
-                },
-                "distanceField": "distance",
-                "spherical": true,
-                "maxDistance": 15000
-            }}
-        ],
-        (err,spots) => {
-            if (err) {console.log(err.name + ': ' + err.message) }
-            socket.emit("spots", (spots) ? spots.map(spot => formatSpots(spot)): spots)
+    socket.on("userPosition", userPosition => {
+        console.log("userPosition", userPosition)
+        if (userPosition) {
+            Spot.aggregate(
+                [
+                    { "$geoNear": {
+                        "near": {
+                            "type": "Point",
+                            "coordinates": [userPosition.longitude, userPosition.latitude]
+                        },
+                        "distanceField": "distance",
+                        "spherical": true,
+                        "maxDistance": 15000
+                    }}
+                ],
+                (err,spots) => {
+                    if (err) {console.log(err.name + ': ' + err.message) }
+                    socket.emit("spotsAroundMe", (spots) ? spots.map(spot => formatSpots(spot)): spots)
+                }
+            )
+        } else {
+            console.log("no data received from front")
         }
-    )
+    })
+
 }));
 
 app.set('port', port)
