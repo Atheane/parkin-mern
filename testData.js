@@ -66,6 +66,49 @@ const generateTestData = () => {
             // todo: socket.emit saved avec success pour le front
             console.log(doc, "saved with success");
         })
+
+        const query3 = {
+            name: 'tessier',
+            loc: {
+                type: 'Point',
+                coordinates: [ 2.376003, 48.896645]
+            }
+        }
+        const newData3 = {
+            name: 'tessier',
+            loc: {
+                type: 'Point',
+                coordinates: [ 2.376003, 48.896645]
+            },
+            dateSave: moment()
+        }
+        Spot.findOneAndUpdate(query3, newData3, {upsert:true}, (err, doc) => {
+            if (err) {console.log(err.name + ': ' + err.message) }
+            // todo: socket.emit saved avec success pour le front
+            console.log(doc, "saved with success");
+        })
+
+        const query4 = {
+            name: 'macdonald',
+            loc: {
+                type: 'Point',
+                coordinates: [2.372508, 48.898578]
+            }
+        }
+        const newData4 = {
+            name: 'macdonald',
+            loc: {
+                type: 'Point',
+                coordinates: [2.372508, 48.898578]
+            },
+            dateSave: moment()
+        }
+        Spot.findOneAndUpdate(query4, newData4, {upsert:true}, (err, doc) => {
+            if (err) {console.log(err.name + ': ' + err.message) }
+            // todo: socket.emit saved avec success pour le front
+            console.log(doc, "saved with success");
+        })
+
     })
 }
 

@@ -39,8 +39,6 @@ const formatSpots = (spot) => {
     } 
 }
 
-let userLoc;
-
 io.on('connection', (socket => {
     console.log('A client just joined on', socket.id)
     socket.on("userPosition", userPosition => {
@@ -60,6 +58,7 @@ io.on('connection', (socket => {
                 ],
                 (err,spots) => {
                     if (err) {console.log(err.name + ': ' + err.message) }
+                    console.log(spots)
                     socket.emit("spotsAroundMe", (spots) ? spots.map(spot => formatSpots(spot)): spots)
                 }
             )
