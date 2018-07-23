@@ -8,6 +8,7 @@ var SpotSchema = new Schema(
   { 
     loc: { type: {type: String, default: 'Point'}, coordinates:  {type: [Number], default: [0, 0], unique: true} },
     name: {type: String, min: 3, max: 100, unique: true},
+    active: {type: Boolean},
     dateSave: {type: Date},
   }, { collection: "spots" }
 )

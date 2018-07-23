@@ -11,6 +11,8 @@ const server = require('http').Server(app)
 
 const generateTestData = require('./testData')
 
+const moment = require('moment')
+
 const Spot = require('./models/spot')
 
 
@@ -51,19 +53,46 @@ io.on('connection', (socket => {
                             "type": "Point",
                             "coordinates": [userPosition.longitude, userPosition.latitude]
                         },
+                        "$match": {"active": true},
                         "distanceField": "distance",
                         "spherical": true,
-                        "maxDistance": 15000
+                        "maxDistance": 500
                     }}
                 ],
                 (err,spots) => {
                     if (err) {console.log(err.name + ': ' + err.message) }
-                    console.log(spots)
+                    console.log("spots around me and active", spots)
                     socket.emit("spotsAroundMe", (spots) ? spots.map(spot => formatSpots(spot)): spots)
                 }
             )
         } else {
             console.log("no data received from front")
+        }
+    })
+    socket.on("unactivateSpot", coord => {
+        console.log("listen on unactivateSpot")
+        if (coord) {
+            const query =  {
+                loc: {
+                    type: 'Point',
+                    coordinates: [ coord.longitude, coord.latitude] 
+                },
+            }
+            const newData = {
+                loc: {
+                    type: 'Point',
+                    coordinates: [ coord.longitude, coord.latitude] 
+                },
+                dateSave: moment(),
+                active: false
+            }
+            Spot.findOneAndUpdate(query, newData, {upsert:true}, (err, doc) => {
+                if (err) {console.log(err.name + ': ' + err.message) }
+                // todo: socket.emit saved avec success pour le front
+                console.log(doc, "saved with success");
+            }) 
+        } else {
+            console.log("no coordinates received from front")
         }
     })
 
