@@ -1,8 +1,8 @@
 const moment = require('moment')
 
-const Spot = require('./models/spot')
+const Spot = require('../models/spot')
 
-const generateTestData = () => {
+const generateSpots = () => {
     Spot.on('index', () => {
         const query = {
             name: 'pereire',
@@ -117,4 +117,4 @@ const generateTestData = () => {
     })
 }
 
-module.exports = generateTestData;
+module.exports = generateSpots;
