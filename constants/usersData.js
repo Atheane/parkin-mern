@@ -10,7 +10,7 @@ const generateUsers = () => {
     const newData = {
         loc: {
             type: 'Point',
-            coordinates: [ 2.307980, 48.888205] 
+            coordinates: [2.262760, 48.984609] 
         },
         dateUpdate: moment(),
         active: true
@@ -33,6 +33,24 @@ const generateUsers = () => {
         active: true
     }
     User.findOneAndUpdate(query1, newData1, {upsert:true}, (err, doc) => {
+        if (err) {console.log(err.name + ': ' + err.message) }
+        // todo: socket.emit saved avec success pour le front
+        console.log(doc, "saved with success");
+    })
+
+    const query2 = {
+        username: 'Arthur',
+        email: 'arthur.vinsont@mailoop.com',
+    }
+    const newData2 = {
+        loc: {
+            type: 'Point',
+            coordinates: [ 2.307980, 48.888205] 
+        },
+        dateUpdate: moment(),
+        active: true
+    }
+    User.findOneAndUpdate(query2, newData2, {upsert:true}, (err, doc) => {
         if (err) {console.log(err.name + ': ' + err.message) }
         // todo: socket.emit saved avec success pour le front
         console.log(doc, "saved with success");
