@@ -1,25 +1,20 @@
 'use strict'
 
-const express = require('express')
-const port = process.env.PORT || '3000'
-const index = require('./routes/index')
-// const router = express.Router();
-const mongoose = require('mongoose')
-
-const app = express()
-const server = require('http').Server(app)
+import express from 'express'
+import index from './routes/index'
+import mongoose from 'mongoose'
 
 import userPosition from './services/userPosition'
 import unactivateSpot from './services/unactivateSpot'
 
-const generateSpots = require('./constants/spotsData')
-const generateUsers = require('./constants/usersData')
+import generateSpots from './constants/spotsData'
+import generateUsers from './constants/usersData'
 
-const moment = require('moment')
+const port = process.env.PORT || '3000'
+// const router = express.Router();
 
-const Spot = require('./models/spot')
-const User = require('./models/user')
-
+const app = express()
+const server = require('http').Server(app)
 
 app.use('/', index)
 
