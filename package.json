@@ -3,12 +3,23 @@
     "express": "^4.16.3",
     "moment": "^2.22.2",
     "mongoose": "^5.2.3",
+    "nodemon": "^1.18.3",
     "socket.io": "^2.1.1"
   },
   "name": "parkin-mesn",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "repository": "git@github.com:Atheane/parkin-mesn.git",
   "author": "Elodie Royant <eroyant@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "rimraf": "^2.6.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+    "start": "npm run build && node dist/server.js"
+  }
 }

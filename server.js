@@ -1,18 +1,20 @@
 'use strict'
 
-const express = require('express')
+import express from 'express'
+import index from './routes/index'
+import mongoose from 'mongoose'
+
+import userPosition from './services/userPosition'
+import unactivateSpot from './services/unactivateSpot'
+
+import generateSpots from './constants/spotsData'
+import generateUsers from './constants/usersData'
+
 const port = process.env.PORT || '3000'
-const index = require('./routes/index')
 // const router = express.Router();
-const mongoose = require('mongoose')
 
 const app = express()
 const server = require('http').Server(app)
-
-const generateTestData = require('./testData')
-
-const Spot = require('./models/spot')
-
 
 app.use('/', index)
 
@@ -27,46 +29,13 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 const io = require('socket.io')(server)
 
-generateTestData()
-
-const formatSpots = (spot) => {
-    return {
-        name: spot.name,
-        coords: {
-            latitude: spot.loc.coordinates[1],
-            longitude: spot.loc.coordinates[0]
-        }
-    } 
-}
+generateSpots()
+generateUsers()
 
 io.on('connection', (socket => {
     console.log('A client just joined on', socket.id)
-    socket.on("userPosition", userPosition => {
-        console.log("userPosition", userPosition)
-        if (userPosition) {
-            Spot.aggregate(
-                [
-                    { "$geoNear": {
-                        "near": {
-                            "type": "Point",
-                            "coordinates": [userPosition.longitude, userPosition.latitude]
-                        },
-                        "distanceField": "distance",
-                        "spherical": true,
-                        "maxDistance": 15000
-                    }}
-                ],
-                (err,spots) => {
-                    if (err) {console.log(err.name + ': ' + err.message) }
-                    console.log(spots)
-                    socket.emit("spotsAroundMe", (spots) ? spots.map(spot => formatSpots(spot)): spots)
-                }
-            )
-        } else {
-            console.log("no data received from front")
-        }
-    })
-
+    userPosition(socket)
+    unactivateSpot(socket, io)
 }));
 
 app.set('port', port)
