@@ -173,6 +173,81 @@ var generateSpots = function generateSpots() {
             // todo: socket.emit saved avec success pour le front
             console.log(doc, "saved with success");
         });
+
+        var query7 = {
+            name: 'fort',
+            loc: {
+                type: 'Point',
+                coordinates: [2.378083, 48.898483]
+            }
+        };
+
+        var newData7 = {
+            name: 'fort',
+            loc: {
+                type: 'Point',
+                coordinates: [2.378083, 48.898483]
+            },
+            dateSave: moment(),
+            active: true
+        };
+        Spot.findOneAndUpdate(query7, newData7, { upsert: true }, function (err, doc) {
+            if (err) {
+                console.log(err.name + ': ' + err.message);
+            }
+            // todo: socket.emit saved avec success pour le front
+            console.log(doc, "saved with success");
+        });
+
+        var query8 = {
+            name: 'recup',
+            loc: {
+                type: 'Point',
+                coordinates: [2.408022, 48.912241]
+            }
+        };
+
+        var newData8 = {
+            name: 'recup',
+            loc: {
+                type: 'Point',
+                coordinates: [2.408022, 48.912241]
+            },
+            dateSave: moment(),
+            active: true
+        };
+        Spot.findOneAndUpdate(query8, newData8, { upsert: true }, function (err, doc) {
+            if (err) {
+                console.log(err.name + ': ' + err.message);
+            }
+            // todo: socket.emit saved avec success pour le front
+            console.log(doc, "saved with success");
+        });
+
+        var query9 = {
+            name: 'recup fort',
+            loc: {
+                type: 'Point',
+                coordinates: [2.404086, 48.914768]
+            }
+        };
+
+        var newData9 = {
+            name: 'recup fort',
+            loc: {
+                type: 'Point',
+                coordinates: [2.404086, 48.914768]
+            },
+            dateSave: moment(),
+            active: true
+        };
+        Spot.findOneAndUpdate(query9, newData9, { upsert: true }, function (err, doc) {
+            if (err) {
+                console.log(err.name + ': ' + err.message);
+            }
+            // todo: socket.emit saved avec success pour le front
+            console.log(doc, "saved with success");
+        });
     });
 };
 
