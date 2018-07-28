@@ -31,8 +31,7 @@ var _usersData2 = _interopRequireDefault(_usersData);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var port = process.env.PORT || '3000';
-// import router = express.Router();
-
+// const router = express.Router();
 
 var app = (0, _express2.default)();
 var server = require('http').Server(app);
