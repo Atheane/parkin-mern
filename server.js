@@ -3,6 +3,7 @@
 import express from 'express'
 import index from './routes/index'
 import mongoose from 'mongoose'
+import 'babel-polyfill'
 
 import onInitialUserPosition from './services/onInitialUserPosition'
 import onMovingUserPosition from './services/onMovingUserPosition'

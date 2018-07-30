@@ -12,6 +12,8 @@ var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
+require('babel-polyfill');
+
 var _onInitialUserPosition = require('./services/onInitialUserPosition');
 
 var _onInitialUserPosition2 = _interopRequireDefault(_onInitialUserPosition);

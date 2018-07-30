@@ -3,4 +3,4 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var email = exports.email = 'arthur.vinson@mailoop.com';
+var email = exports.email = 'damien.biasotto@gmail.com';
