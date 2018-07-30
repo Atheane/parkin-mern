@@ -20,9 +20,9 @@ var _onTokenPushNotification = require('./services/onTokenPushNotification');
 
 var _onTokenPushNotification2 = _interopRequireDefault(_onTokenPushNotification);
 
-var _onUnactivateSpot = require('./services/onUnactivateSpot');
+var _onSelectSpot = require('./services/onSelectSpot');
 
-var _onUnactivateSpot2 = _interopRequireDefault(_onUnactivateSpot);
+var _onSelectSpot2 = _interopRequireDefault(_onSelectSpot);
 
 var _spotsData = require('./constants/spotsData');
 
@@ -60,7 +60,7 @@ io.on('connection', function (socket) {
     console.log('A client just joined on', socket.id);
     (0, _onUserPosition2.default)(socket);
     (0, _onTokenPushNotification2.default)(socket);
-    (0, _onUnactivateSpot2.default)(socket);
+    (0, _onSelectSpot2.default)(socket);
 });
 
 app.set('port', port);

@@ -1,4 +1,4 @@
-export const formatSpots = spot => {
+export const formatSpot = spot => {
     return {
         name: spot.name,
         coords: {

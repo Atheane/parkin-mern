@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var formatSpots = exports.formatSpots = function formatSpots(spot) {
+var formatSpot = exports.formatSpot = function formatSpot(spot) {
     return {
         name: spot.name,
         coords: {

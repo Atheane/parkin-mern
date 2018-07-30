@@ -6,7 +6,7 @@ import mongoose from 'mongoose'
 
 import onUserPosition from './services/onUserPosition'
 import onTokenPushNotification from './services/onTokenPushNotification'
-import onUnactivateSpot from './services/onUnactivateSpot'
+import onSelectSpot from './services/onSelectSpot'
 
 import generateSpots from './constants/spotsData'
 import generateUsers from './constants/usersData'
@@ -37,7 +37,7 @@ io.on('connection', (socket => {
     console.log('A client just joined on', socket.id)
     onUserPosition(socket)
     onTokenPushNotification(socket)
-    onUnactivateSpot(socket)
+    onSelectSpot(socket)
 }))
 
 app.set('port', port)

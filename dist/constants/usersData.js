@@ -31,7 +31,7 @@ var generateUsers = function generateUsers() {
     var newData1 = {
         loc: {
             type: 'Point',
-            coordinates: [2.377853, 48.898287]
+            coordinates: [2.307174, 48.888283]
         },
         dateUpdate: moment(),
         active: true
