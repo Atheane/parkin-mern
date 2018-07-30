@@ -4,8 +4,9 @@ import express from 'express'
 import index from './routes/index'
 import mongoose from 'mongoose'
 
-import userPosition from './services/userPosition'
-import unactivateSpot from './services/unactivateSpot'
+import onUserPosition from './services/onUserPosition'
+import onTokenPushNotification from './services/onTokenPushNotification'
+import onUnactivateSpot from './services/onUnactivateSpot'
 
 import generateSpots from './constants/spotsData'
 import generateUsers from './constants/usersData'
@@ -34,9 +35,10 @@ generateUsers()
 
 io.on('connection', (socket => {
     console.log('A client just joined on', socket.id)
-    userPosition(socket)
-    unactivateSpot(socket, io)
-}));
+    onUserPosition(socket)
+    onTokenPushNotification(socket)
+    onUnactivateSpot(socket)
+}))
 
 app.set('port', port)
 server.listen(port)

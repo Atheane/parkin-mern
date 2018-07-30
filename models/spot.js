@@ -10,6 +10,7 @@ var SpotSchema = new Schema(
     name: {type: String, min: 3, max: 100, unique: true},
     active: {type: Boolean},
     dateSave: {type: Date},
+    assignedTo: { type: mongoose.Schema.ObjectId, ref: 'User'},
   }, { collection: "spots" }
 )
 SpotSchema.index({ loc: "2dsphere" });

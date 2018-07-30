@@ -3,7 +3,7 @@ import User from '../models/user'
 import Spot from '../models/spot'
 import { formatSpots } from '../utils/format'
 
-export default (socket, io) => {
+export default (socket) => {
     socket.on("unactivateSpot", coord => {
         console.log("listen on unactivateSpot")
         if (coord) {
@@ -40,7 +40,7 @@ export default (socket, io) => {
                     (err,spots) => {
                         if (err) {console.log(err.name + ': ' + err.message) }
                         console.log("spots around me and active", spots)
-                        io.emit("spotsAroundMe", (spots) ? spots.map(spot => formatSpots(spot)): spots)
+                        socket.broadcast.emit("spotsAroundMe", (spots) ? spots.map(spot => formatSpots(spot)): spots)
                     }
                 )
             })

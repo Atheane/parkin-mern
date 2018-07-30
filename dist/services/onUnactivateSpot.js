@@ -20,7 +20,7 @@ var _format = require('../utils/format');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (socket, io) {
+exports.default = function (socket) {
     socket.on("unactivateSpot", function (coord) {
         console.log("listen on unactivateSpot");
         if (coord) {
@@ -58,7 +58,7 @@ exports.default = function (socket, io) {
                         console.log(err.name + ': ' + err.message);
                     }
                     console.log("spots around me and active", spots);
-                    io.emit("spotsAroundMe", spots ? spots.map(function (spot) {
+                    socket.broadcast.emit("spotsAroundMe", spots ? spots.map(function (spot) {
                         return (0, _format.formatSpots)(spot);
                     }) : spots);
                 });

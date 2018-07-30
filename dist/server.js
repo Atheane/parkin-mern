@@ -12,13 +12,17 @@ var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
-var _userPosition = require('./services/userPosition');
+var _onUserPosition = require('./services/onUserPosition');
 
-var _userPosition2 = _interopRequireDefault(_userPosition);
+var _onUserPosition2 = _interopRequireDefault(_onUserPosition);
 
-var _unactivateSpot = require('./services/unactivateSpot');
+var _onTokenPushNotification = require('./services/onTokenPushNotification');
 
-var _unactivateSpot2 = _interopRequireDefault(_unactivateSpot);
+var _onTokenPushNotification2 = _interopRequireDefault(_onTokenPushNotification);
+
+var _onUnactivateSpot = require('./services/onUnactivateSpot');
+
+var _onUnactivateSpot2 = _interopRequireDefault(_onUnactivateSpot);
 
 var _spotsData = require('./constants/spotsData');
 
@@ -54,8 +58,9 @@ var io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
     console.log('A client just joined on', socket.id);
-    (0, _userPosition2.default)(socket);
-    (0, _unactivateSpot2.default)(socket, io);
+    (0, _onUserPosition2.default)(socket);
+    (0, _onTokenPushNotification2.default)(socket);
+    (0, _onUnactivateSpot2.default)(socket);
 });
 
 app.set('port', port);
