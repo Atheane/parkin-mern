@@ -4,7 +4,8 @@ import express from 'express'
 import index from './routes/index'
 import mongoose from 'mongoose'
 
-import onUserPosition from './services/onUserPosition'
+import onInitialUserPosition from './services/onInitialUserPosition'
+import onMovingUserPosition from './services/onMovingUserPosition'
 import onTokenPushNotification from './services/onTokenPushNotification'
 import onSelectSpot from './services/onSelectSpot'
 
@@ -35,7 +36,8 @@ generateUsers()
 
 io.on('connection', (socket => {
     console.log('A client just joined on', socket.id)
-    onUserPosition(socket)
+    onInitialUserPosition(socket)
+    onMovingUserPosition(socket)
     onTokenPushNotification(socket)
     onSelectSpot(socket)
 }))

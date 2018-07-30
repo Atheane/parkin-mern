@@ -5,8 +5,8 @@ import { formatSpot } from '../utils/format'
 import { email } from '../constants/currentUser'
 
 export default (socket) => {
-    socket.on("userPosition", userPosition => {
-        console.log("userPosition", userPosition)
+    socket.on("initialUserPosition", userPosition => {
+        console.log("initialUserPosition", userPosition)
         if (userPosition) {
             const newData = {
                 loc: {
@@ -42,7 +42,7 @@ export default (socket) => {
                 }
             )
         } else {
-            console.log("onUserPosition, no data received from front", socket.id)
+            console.log("onInitialUserPosition, no data received from front", socket.id)
         }
     })
 }

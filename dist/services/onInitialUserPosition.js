@@ -23,8 +23,8 @@ var _currentUser = require('../constants/currentUser');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (socket) {
-    socket.on("userPosition", function (userPosition) {
-        console.log("userPosition", userPosition);
+    socket.on("initialUserPosition", function (userPosition) {
+        console.log("initialUserPosition", userPosition);
         if (userPosition) {
             var newData = {
                 loc: {
@@ -58,7 +58,7 @@ exports.default = function (socket) {
                 }) : spots);
             });
         } else {
-            console.log("onUserPosition, no data received from front", socket.id);
+            console.log("onInitialUserPosition, no data received from front", socket.id);
         }
     });
 };
