@@ -18,16 +18,14 @@ var _spot2 = _interopRequireDefault(_spot);
 
 var _format = require('../utils/format');
 
+var _currentUser = require('../constants/currentUser');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (socket) {
-    socket.on("userPosition", function (userPosition) {
-        console.log("userPosition", userPosition);
+    socket.on("initialUserPosition", function (userPosition) {
+        console.log("initialUserPosition", userPosition);
         if (userPosition) {
-            var query = {
-                username: 'Come',
-                email: 'damien.biasotto@gmail.com'
-            };
             var newData = {
                 loc: {
                     type: 'Point',
@@ -35,7 +33,7 @@ exports.default = function (socket) {
                 },
                 dateUpdate: (0, _moment2.default)()
             };
-            _user2.default.findOneAndUpdate(query, newData, { upsert: true }, function (err, doc) {
+            _user2.default.findOneAndUpdate({ email: _currentUser.email }, newData, { upsert: true }, function (err, doc) {
                 if (err) {
                     console.log(err.name + ': ' + err.message);
                 }
@@ -49,18 +47,18 @@ exports.default = function (socket) {
                     },
                     "distanceField": "distance",
                     "spherical": true,
-                    "maxDistance": 500
+                    "maxDistance": 800
                 } }, { "$match": { "active": true } }], function (err, spots) {
                 if (err) {
                     console.log(err.name + ': ' + err.message);
                 }
                 console.log("spots around me and active", spots);
                 socket.emit("spotsAroundMe", spots ? spots.map(function (spot) {
-                    return (0, _format.formatSpots)(spot);
+                    return { spot: (0, _format.formatSpot)(spot), selected: false };
                 }) : spots);
             });
         } else {
-            console.log("no data received from front");
+            console.log("onInitialUserPosition, no data received from front", socket.id);
         }
     });
 };

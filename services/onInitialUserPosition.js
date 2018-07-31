@@ -1,16 +1,13 @@
 import moment from 'moment'
 import User from '../models/user'
 import Spot from '../models/spot'
-import { formatSpots } from '../utils/format'
+import { formatSpot } from '../utils/format'
+import { email } from '../constants/currentUser'
 
 export default (socket) => {
-    socket.on("userPosition", userPosition => {
-        console.log("userPosition", userPosition)
+    socket.on("initialUserPosition", userPosition => {
+        console.log("initialUserPosition", userPosition)
         if (userPosition) {
-            const query = {
-                username: 'Come',
-                email: 'damien.biasotto@gmail.com',
-            }
             const newData = {
                 loc: {
                     type: 'Point',
@@ -18,7 +15,7 @@ export default (socket) => {
                 },
                 dateUpdate: moment()
             }
-            User.findOneAndUpdate(query, newData, {upsert:true}, (err, doc) => {
+            User.findOneAndUpdate({email}, newData, {upsert:true}, (err, doc) => {
                 if (err) {console.log(err.name + ': ' + err.message) }
                 // todo: socket.emit saved avec success pour le front
                 console.log(doc, "saved with success");
@@ -32,18 +29,20 @@ export default (socket) => {
                         },
                         "distanceField": "distance",
                         "spherical": true,
-                        "maxDistance": 500
+                        "maxDistance": 800
                     }},
                     {"$match": {"active": true}},
                 ],
                 (err,spots) => {
                     if (err) {console.log(err.name + ': ' + err.message) }
                     console.log("spots around me and active", spots)
-                    socket.emit("spotsAroundMe", (spots) ? spots.map(spot => formatSpots(spot)): spots)
+                    socket.emit("spotsAroundMe", (spots) ? spots.map(spot => {
+                        return {spot: formatSpot(spot), selected: false}
+                    }) : spots)
                 }
             )
         } else {
-            console.log("no data received from front")
+            console.log("onInitialUserPosition, no data received from front", socket.id)
         }
     })
 }

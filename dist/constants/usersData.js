@@ -31,7 +31,7 @@ var generateUsers = function generateUsers() {
     var newData1 = {
         loc: {
             type: 'Point',
-            coordinates: [2.377853, 48.898287]
+            coordinates: [2.307080, 48.888257]
         },
         dateUpdate: moment(),
         active: true
@@ -46,7 +46,7 @@ var generateUsers = function generateUsers() {
 
     var query2 = {
         username: 'Arthur',
-        email: 'arthur.vinsont@mailoop.com'
+        email: 'arthur.vinson@mailoop.com'
     };
     var newData2 = {
         loc: {
@@ -57,6 +57,26 @@ var generateUsers = function generateUsers() {
         active: true
     };
     User.findOneAndUpdate(query2, newData2, { upsert: true }, function (err, doc) {
+        if (err) {
+            console.log(err.name + ': ' + err.message);
+        }
+        // todo: socket.emit saved avec success pour le front
+        console.log(doc, "saved with success");
+    });
+
+    var query3 = {
+        username: 'Audrey',
+        email: 'audrey@gmail.com'
+    };
+    var newData3 = {
+        loc: {
+            type: 'Point',
+            coordinates: [2.4078493, 48.9136367]
+        },
+        dateUpdate: moment(),
+        active: true
+    };
+    User.findOneAndUpdate(query3, newData3, { upsert: true }, function (err, doc) {
         if (err) {
             console.log(err.name + ': ' + err.message);
         }

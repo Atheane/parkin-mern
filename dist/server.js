@@ -12,13 +12,23 @@ var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
-var _userPosition = require('./services/userPosition');
+require('babel-polyfill');
 
-var _userPosition2 = _interopRequireDefault(_userPosition);
+var _onInitialUserPosition = require('./services/onInitialUserPosition');
 
-var _unactivateSpot = require('./services/unactivateSpot');
+var _onInitialUserPosition2 = _interopRequireDefault(_onInitialUserPosition);
 
-var _unactivateSpot2 = _interopRequireDefault(_unactivateSpot);
+var _onMovingUserPosition = require('./services/onMovingUserPosition');
+
+var _onMovingUserPosition2 = _interopRequireDefault(_onMovingUserPosition);
+
+var _onTokenPushNotification = require('./services/onTokenPushNotification');
+
+var _onTokenPushNotification2 = _interopRequireDefault(_onTokenPushNotification);
+
+var _onSelectSpot = require('./services/onSelectSpot');
+
+var _onSelectSpot2 = _interopRequireDefault(_onSelectSpot);
 
 var _spotsData = require('./constants/spotsData');
 
@@ -54,8 +64,10 @@ var io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
     console.log('A client just joined on', socket.id);
-    (0, _userPosition2.default)(socket);
-    (0, _unactivateSpot2.default)(socket, io);
+    (0, _onInitialUserPosition2.default)(socket);
+    (0, _onMovingUserPosition2.default)(socket);
+    (0, _onTokenPushNotification2.default)(socket);
+    (0, _onSelectSpot2.default)(socket);
 });
 
 app.set('port', port);

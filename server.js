@@ -3,9 +3,12 @@
 import express from 'express'
 import index from './routes/index'
 import mongoose from 'mongoose'
+import 'babel-polyfill'
 
-import userPosition from './services/userPosition'
-import unactivateSpot from './services/unactivateSpot'
+import onInitialUserPosition from './services/onInitialUserPosition'
+import onMovingUserPosition from './services/onMovingUserPosition'
+import onTokenPushNotification from './services/onTokenPushNotification'
+import onSelectSpot from './services/onSelectSpot'
 
 import generateSpots from './constants/spotsData'
 import generateUsers from './constants/usersData'
@@ -34,9 +37,11 @@ generateUsers()
 
 io.on('connection', (socket => {
     console.log('A client just joined on', socket.id)
-    userPosition(socket)
-    unactivateSpot(socket, io)
-}));
+    onInitialUserPosition(socket)
+    onMovingUserPosition(socket)
+    onTokenPushNotification(socket)
+    onSelectSpot(socket)
+}))
 
 app.set('port', port)
 server.listen(port)
