@@ -22,10 +22,11 @@ export default (socket) => {
               const shouldPushANotification = geodist(
                 {lat: userPosition.latitude, lon: userPosition.longitude},
                 {lat: spot.loc.coordinates[1], lon: spot.loc.coordinates[0]},
-                {unit: 'meters', limit: 100}
+                {unit: 'meters', limit: 10}
               )
-              if (shouldPushANotification) {
-                console.log(shouldPushANotification)
+              let counter = 0
+              if (shouldPushANotification && counter === 0) {
+                counter +=1
                 const title = 'Parkin'
                 const body = 'Vous êtes arrivé'
                 const message = {

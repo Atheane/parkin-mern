@@ -63,7 +63,6 @@ exports.default = function (socket) {
                     if (spot) {
                       var shouldPushANotification = geodist({ lat: userPosition.latitude, lon: userPosition.longitude }, { lat: spot.loc.coordinates[1], lon: spot.loc.coordinates[0] }, { unit: 'meters', limit: 100 });
                       if (shouldPushANotification) {
-                        console.log(shouldPushANotification);
                         var title = 'Parkin';
                         var body = 'Vous êtes arrivé';
                         var message = {
