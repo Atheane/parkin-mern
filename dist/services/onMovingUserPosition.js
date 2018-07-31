@@ -33,11 +33,11 @@ exports.default = function (socket) {
     console.log("movingUserPosition", userPosition);
     if (userPosition) {
       _user2.default.findOne({ email: _currentUser.email }, function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(err, user) {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(err, user) {
           var pushToken;
-          return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          return regeneratorRuntime.wrap(function _callee3$(_context3) {
             while (1) {
-              switch (_context2.prev = _context2.next) {
+              switch (_context3.prev = _context3.next) {
                 case 0:
                   console.log("user", user);
                   if (err) {
@@ -45,15 +45,15 @@ exports.default = function (socket) {
                   }
 
                   if (!user) {
-                    _context2.next = 9;
+                    _context3.next = 9;
                     break;
                   }
 
-                  _context2.next = 5;
+                  _context3.next = 5;
                   return user.tokenPushNotification;
 
                 case 5:
-                  pushToken = _context2.sent;
+                  pushToken = _context3.sent;
 
                   _spot2.default.findOne({ assignedTo: user }, function (err, spot) {
                     console.log("spot", spot);
@@ -185,44 +185,204 @@ exports.default = function (socket) {
                         // sending a notification produces a ticket, which
                         // contains a receipt ID you later use to get the receipt.
                         // The receipts may contain error codes to which you must respond. 
-                        // let receiptIds = [];
-                        // for (let ticket of tickets) {
-                        //   if (ticket.id) {
-                        //     receiptIds.push(ticket.id);
-                        //   }
-                        // }
+                        var receiptIds = [];
+                        var _iteratorNormalCompletion2 = true;
+                        var _didIteratorError2 = false;
+                        var _iteratorError2 = undefined;
 
-                        // let receiptIdChunks = expo.chunkPushNotificationReceiptIds(receiptIds);
-                        // (async () => {
-                        //   for (let chunk of receiptIdChunks) {
-                        //     try {
-                        //       let receipts = await expo.getPushNotificationReceiptsAsync(chunk);
-                        //       console.log(receipts);
+                        try {
+                          for (var _iterator2 = tickets[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                            var ticket = _step2.value;
 
-                        //       for (let receipt of receipts) {
-                        //         if (receipt.status === 'ok') {
-                        //           continue;
-                        //         } else if (receipt.status === 'error') {
-                        //           console.error(`There was an error sending a notification: ${receipt.message}`);
-                        //           if (receipt.details && receipt.details.error) {
-                        //             // The error codes are listed in the Expo documentation:
-                        //             // https://docs.expo.io/versions/latest/guides/push-notifications#response-format 
-                        //             // You must handle the errors appropriately.
-                        //             console.error(`The error code is ${receipt.details.error}`);
-                        //           }
-                        //         }
-                        //       }
-                        //     } catch (error) {
-                        //       console.error(error);
-                        //     }
-                        //   }
-                        // })()
+                            if (ticket.id) {
+                              receiptIds.push(ticket.id);
+                            }
+                          }
+                        } catch (err) {
+                          _didIteratorError2 = true;
+                          _iteratorError2 = err;
+                        } finally {
+                          try {
+                            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                              _iterator2.return();
+                            }
+                          } finally {
+                            if (_didIteratorError2) {
+                              throw _iteratorError2;
+                            }
+                          }
+                        }
+
+                        var receiptIdChunks = expo.chunkPushNotificationReceiptIds(receiptIds);
+                        var retrieveErrors = function () {
+                          var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+                            var _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, chunk, receipts, _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, receipt;
+
+                            return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                              while (1) {
+                                switch (_context2.prev = _context2.next) {
+                                  case 0:
+                                    _iteratorNormalCompletion3 = true;
+                                    _didIteratorError3 = false;
+                                    _iteratorError3 = undefined;
+                                    _context2.prev = 3;
+                                    _iterator3 = receiptIdChunks[Symbol.iterator]();
+
+                                  case 5:
+                                    if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
+                                      _context2.next = 49;
+                                      break;
+                                    }
+
+                                    chunk = _step3.value;
+                                    _context2.prev = 7;
+                                    _context2.next = 10;
+                                    return expo.getPushNotificationReceiptsAsync(chunk);
+
+                                  case 10:
+                                    receipts = _context2.sent;
+
+                                    console.log(receipts);
+
+                                    _iteratorNormalCompletion4 = true;
+                                    _didIteratorError4 = false;
+                                    _iteratorError4 = undefined;
+                                    _context2.prev = 15;
+                                    _iterator4 = receipts[Symbol.iterator]();
+
+                                  case 17:
+                                    if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
+                                      _context2.next = 27;
+                                      break;
+                                    }
+
+                                    receipt = _step4.value;
+
+                                    if (!(receipt.status === 'ok')) {
+                                      _context2.next = 23;
+                                      break;
+                                    }
+
+                                    return _context2.abrupt('continue', 24);
+
+                                  case 23:
+                                    if (receipt.status === 'error') {
+                                      console.error('There was an error sending a notification: ' + receipt.message);
+                                      if (receipt.details && receipt.details.error) {
+                                        // The error codes are listed in the Expo documentation:
+                                        // https://docs.expo.io/versions/latest/guides/push-notifications#response-format 
+                                        // You must handle the errors appropriately.
+                                        console.error('The error code is ' + receipt.details.error);
+                                      }
+                                    }
+
+                                  case 24:
+                                    _iteratorNormalCompletion4 = true;
+                                    _context2.next = 17;
+                                    break;
+
+                                  case 27:
+                                    _context2.next = 33;
+                                    break;
+
+                                  case 29:
+                                    _context2.prev = 29;
+                                    _context2.t0 = _context2['catch'](15);
+                                    _didIteratorError4 = true;
+                                    _iteratorError4 = _context2.t0;
+
+                                  case 33:
+                                    _context2.prev = 33;
+                                    _context2.prev = 34;
+
+                                    if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                                      _iterator4.return();
+                                    }
+
+                                  case 36:
+                                    _context2.prev = 36;
+
+                                    if (!_didIteratorError4) {
+                                      _context2.next = 39;
+                                      break;
+                                    }
+
+                                    throw _iteratorError4;
+
+                                  case 39:
+                                    return _context2.finish(36);
+
+                                  case 40:
+                                    return _context2.finish(33);
+
+                                  case 41:
+                                    _context2.next = 46;
+                                    break;
+
+                                  case 43:
+                                    _context2.prev = 43;
+                                    _context2.t1 = _context2['catch'](7);
+
+                                    console.error(_context2.t1);
+
+                                  case 46:
+                                    _iteratorNormalCompletion3 = true;
+                                    _context2.next = 5;
+                                    break;
+
+                                  case 49:
+                                    _context2.next = 55;
+                                    break;
+
+                                  case 51:
+                                    _context2.prev = 51;
+                                    _context2.t2 = _context2['catch'](3);
+                                    _didIteratorError3 = true;
+                                    _iteratorError3 = _context2.t2;
+
+                                  case 55:
+                                    _context2.prev = 55;
+                                    _context2.prev = 56;
+
+                                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                                      _iterator3.return();
+                                    }
+
+                                  case 58:
+                                    _context2.prev = 58;
+
+                                    if (!_didIteratorError3) {
+                                      _context2.next = 61;
+                                      break;
+                                    }
+
+                                    throw _iteratorError3;
+
+                                  case 61:
+                                    return _context2.finish(58);
+
+                                  case 62:
+                                    return _context2.finish(55);
+
+                                  case 63:
+                                  case 'end':
+                                    return _context2.stop();
+                                }
+                              }
+                            }, _callee2, undefined, [[3, 51, 55, 63], [7, 43], [15, 29, 33, 41], [34,, 36, 40], [56,, 58, 62]]);
+                          }));
+
+                          return function retrieveErrors() {
+                            return _ref3.apply(this, arguments);
+                          };
+                        }();
+                        retrieveErrors();
                       }
                     } else {
                       console.log("onMovingUserPosition, No spot assined to user", user);
                     }
                   });
-                  _context2.next = 10;
+                  _context3.next = 10;
                   break;
 
                 case 9:
@@ -230,10 +390,10 @@ exports.default = function (socket) {
 
                 case 10:
                 case 'end':
-                  return _context2.stop();
+                  return _context3.stop();
               }
             }
-          }, _callee2, undefined);
+          }, _callee3, undefined);
         }));
 
         return function (_x, _x2) {
