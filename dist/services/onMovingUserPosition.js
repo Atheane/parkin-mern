@@ -65,9 +65,8 @@ exports.default = function (socket) {
                       var counter = 0;
                       if (shouldPushANotification && counter === 0) {
                         console.log(counter);
-                        counter += 1;
                         var title = 'Parkin';
-                        var body = 'Vous êtes arrivé';
+                        var body = 'est à moins de 80m';
                         var message = {
                           to: pushToken,
                           sound: 'default',
@@ -81,99 +80,39 @@ exports.default = function (socket) {
                         }
                         var messages = [];
                         messages.push(message);
-                        var chunks = expo.chunkPushNotifications(messages);
+                        // let chunks = expo.chunkPushNotifications(messages);
                         var tickets = [];
                         var pushNotifications = function () {
                           var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-                            var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, chunk, ticketChunk;
-
+                            var ticketChunk;
                             return regeneratorRuntime.wrap(function _callee$(_context) {
                               while (1) {
                                 switch (_context.prev = _context.next) {
                                   case 0:
-                                    // Send the chunks to the Expo push notification service. There are
-                                    // different strategies you could use. A simple one is to send one chunk at a
-                                    // time, which nicely spreads the load out over time:
-                                    _iteratorNormalCompletion = true;
-                                    _didIteratorError = false;
-                                    _iteratorError = undefined;
-                                    _context.prev = 3;
-                                    _iterator = chunks[Symbol.iterator]();
+                                    _context.prev = 0;
+                                    _context.next = 3;
+                                    return expo.sendPushNotificationsAsync(messages);
 
-                                  case 5:
-                                    if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                                      _context.next = 21;
-                                      break;
-                                    }
-
-                                    chunk = _step.value;
-                                    _context.prev = 7;
-                                    _context.next = 10;
-                                    return expo.sendPushNotificationsAsync(chunk);
-
-                                  case 10:
+                                  case 3:
                                     ticketChunk = _context.sent;
 
                                     console.log(ticketChunk);
                                     tickets.push.apply(tickets, _toConsumableArray(ticketChunk));
-                                    // NOTE: If a ticket contains an error code in ticket.details.error, you
-                                    // must handle it appropriately. The error codes are listed in the Expo
-                                    // documentation:
-                                    // https://docs.expo.io/versions/latest/guides/push-notifications#response-format 
-                                    _context.next = 18;
+                                    _context.next = 11;
                                     break;
 
-                                  case 15:
-                                    _context.prev = 15;
-                                    _context.t0 = _context['catch'](7);
+                                  case 8:
+                                    _context.prev = 8;
+                                    _context.t0 = _context['catch'](0);
 
                                     console.error(_context.t0);
 
-                                  case 18:
-                                    _iteratorNormalCompletion = true;
-                                    _context.next = 5;
-                                    break;
-
-                                  case 21:
-                                    _context.next = 27;
-                                    break;
-
-                                  case 23:
-                                    _context.prev = 23;
-                                    _context.t1 = _context['catch'](3);
-                                    _didIteratorError = true;
-                                    _iteratorError = _context.t1;
-
-                                  case 27:
-                                    _context.prev = 27;
-                                    _context.prev = 28;
-
-                                    if (!_iteratorNormalCompletion && _iterator.return) {
-                                      _iterator.return();
-                                    }
-
-                                  case 30:
-                                    _context.prev = 30;
-
-                                    if (!_didIteratorError) {
-                                      _context.next = 33;
-                                      break;
-                                    }
-
-                                    throw _iteratorError;
-
-                                  case 33:
-                                    return _context.finish(30);
-
-                                  case 34:
-                                    return _context.finish(27);
-
-                                  case 35:
+                                  case 11:
                                   case 'end':
                                     return _context.stop();
                                 }
                               }
-                            }, _callee, undefined, [[3, 23, 27, 35], [7, 15], [28,, 30, 34]]);
+                            }, _callee, undefined, [[0, 8]]);
                           }));
 
                           return function pushNotifications() {
@@ -186,29 +125,29 @@ exports.default = function (socket) {
                         // contains a receipt ID you later use to get the receipt.
                         // The receipts may contain error codes to which you must respond. 
                         var receiptIds = [];
-                        var _iteratorNormalCompletion2 = true;
-                        var _didIteratorError2 = false;
-                        var _iteratorError2 = undefined;
+                        var _iteratorNormalCompletion = true;
+                        var _didIteratorError = false;
+                        var _iteratorError = undefined;
 
                         try {
-                          for (var _iterator2 = tickets[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                            var ticket = _step2.value;
+                          for (var _iterator = tickets[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                            var ticket = _step.value;
 
                             if (ticket.id) {
                               receiptIds.push(ticket.id);
                             }
                           }
                         } catch (err) {
-                          _didIteratorError2 = true;
-                          _iteratorError2 = err;
+                          _didIteratorError = true;
+                          _iteratorError = err;
                         } finally {
                           try {
-                            if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                              _iterator2.return();
+                            if (!_iteratorNormalCompletion && _iterator.return) {
+                              _iterator.return();
                             }
                           } finally {
-                            if (_didIteratorError2) {
-                              throw _iteratorError2;
+                            if (_didIteratorError) {
+                              throw _iteratorError;
                             }
                           }
                         }
@@ -216,25 +155,25 @@ exports.default = function (socket) {
                         var receiptIdChunks = expo.chunkPushNotificationReceiptIds(receiptIds);
                         var retrieveErrors = function () {
                           var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-                            var _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, chunk, receipts, _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, receipt;
+                            var _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, chunk, receipts, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, receipt;
 
                             return regeneratorRuntime.wrap(function _callee2$(_context2) {
                               while (1) {
                                 switch (_context2.prev = _context2.next) {
                                   case 0:
-                                    _iteratorNormalCompletion3 = true;
-                                    _didIteratorError3 = false;
-                                    _iteratorError3 = undefined;
+                                    _iteratorNormalCompletion2 = true;
+                                    _didIteratorError2 = false;
+                                    _iteratorError2 = undefined;
                                     _context2.prev = 3;
-                                    _iterator3 = receiptIdChunks[Symbol.iterator]();
+                                    _iterator2 = receiptIdChunks[Symbol.iterator]();
 
                                   case 5:
-                                    if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
+                                    if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
                                       _context2.next = 49;
                                       break;
                                     }
 
-                                    chunk = _step3.value;
+                                    chunk = _step2.value;
                                     _context2.prev = 7;
                                     _context2.next = 10;
                                     return expo.getPushNotificationReceiptsAsync(chunk);
@@ -244,19 +183,19 @@ exports.default = function (socket) {
 
                                     console.log(receipts);
 
-                                    _iteratorNormalCompletion4 = true;
-                                    _didIteratorError4 = false;
-                                    _iteratorError4 = undefined;
+                                    _iteratorNormalCompletion3 = true;
+                                    _didIteratorError3 = false;
+                                    _iteratorError3 = undefined;
                                     _context2.prev = 15;
-                                    _iterator4 = receipts[Symbol.iterator]();
+                                    _iterator3 = receipts[Symbol.iterator]();
 
                                   case 17:
-                                    if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
+                                    if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
                                       _context2.next = 27;
                                       break;
                                     }
 
-                                    receipt = _step4.value;
+                                    receipt = _step3.value;
 
                                     if (!(receipt.status === 'ok')) {
                                       _context2.next = 23;
@@ -277,7 +216,7 @@ exports.default = function (socket) {
                                     }
 
                                   case 24:
-                                    _iteratorNormalCompletion4 = true;
+                                    _iteratorNormalCompletion3 = true;
                                     _context2.next = 17;
                                     break;
 
@@ -288,26 +227,26 @@ exports.default = function (socket) {
                                   case 29:
                                     _context2.prev = 29;
                                     _context2.t0 = _context2['catch'](15);
-                                    _didIteratorError4 = true;
-                                    _iteratorError4 = _context2.t0;
+                                    _didIteratorError3 = true;
+                                    _iteratorError3 = _context2.t0;
 
                                   case 33:
                                     _context2.prev = 33;
                                     _context2.prev = 34;
 
-                                    if (!_iteratorNormalCompletion4 && _iterator4.return) {
-                                      _iterator4.return();
+                                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                                      _iterator3.return();
                                     }
 
                                   case 36:
                                     _context2.prev = 36;
 
-                                    if (!_didIteratorError4) {
+                                    if (!_didIteratorError3) {
                                       _context2.next = 39;
                                       break;
                                     }
 
-                                    throw _iteratorError4;
+                                    throw _iteratorError3;
 
                                   case 39:
                                     return _context2.finish(36);
@@ -326,7 +265,7 @@ exports.default = function (socket) {
                                     console.error(_context2.t1);
 
                                   case 46:
-                                    _iteratorNormalCompletion3 = true;
+                                    _iteratorNormalCompletion2 = true;
                                     _context2.next = 5;
                                     break;
 
@@ -337,26 +276,26 @@ exports.default = function (socket) {
                                   case 51:
                                     _context2.prev = 51;
                                     _context2.t2 = _context2['catch'](3);
-                                    _didIteratorError3 = true;
-                                    _iteratorError3 = _context2.t2;
+                                    _didIteratorError2 = true;
+                                    _iteratorError2 = _context2.t2;
 
                                   case 55:
                                     _context2.prev = 55;
                                     _context2.prev = 56;
 
-                                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                                      _iterator3.return();
+                                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                      _iterator2.return();
                                     }
 
                                   case 58:
                                     _context2.prev = 58;
 
-                                    if (!_didIteratorError3) {
+                                    if (!_didIteratorError2) {
                                       _context2.next = 61;
                                       break;
                                     }
 
-                                    throw _iteratorError3;
+                                    throw _iteratorError2;
 
                                   case 61:
                                     return _context2.finish(58);

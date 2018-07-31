@@ -27,9 +27,8 @@ export default (socket) => {
               let counter = 0
               if (shouldPushANotification && counter === 0) {
                 console.log(counter)
-                counter +=1
                 const title = 'Parkin'
-                const body = 'Vous êtes arrivé'
+                const body = 'est à moins de 80m'
                 const message = {
                   to: pushToken,
                   sound: 'default',
@@ -43,25 +42,17 @@ export default (socket) => {
                 }
                 let messages = []
                 messages.push(message)
-                let chunks = expo.chunkPushNotifications(messages);
+                // let chunks = expo.chunkPushNotifications(messages);
                 let tickets = []
                 const pushNotifications = async () => {
-                  // Send the chunks to the Expo push notification service. There are
-                  // different strategies you could use. A simple one is to send one chunk at a
-                  // time, which nicely spreads the load out over time:
-                  for (let chunk of chunks) {
-                    try {
-                      let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
-                      console.log(ticketChunk)
-                      tickets.push(...ticketChunk)
-                      // NOTE: If a ticket contains an error code in ticket.details.error, you
-                      // must handle it appropriately. The error codes are listed in the Expo
-                      // documentation:
-                      // https://docs.expo.io/versions/latest/guides/push-notifications#response-format 
-                    } catch (error) {
-                      console.error(error)
-                    }
+                  try {
+                    let ticketChunk = await expo.sendPushNotificationsAsync(messages);
+                    console.log(ticketChunk)
+                    tickets.push(...ticketChunk)
+                  } catch (error) {
+                    console.error(error)
                   }
+
                 }
                 pushNotifications()
               
