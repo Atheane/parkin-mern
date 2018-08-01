@@ -6,8 +6,8 @@ var User = require('../models/user');
 
 var generateUsers = function generateUsers() {
     var query = {
-        username: 'Come',
-        email: 'damien.biasotto@gmail.com'
+        name: 'Come',
+        token: 'damien.biasotto@gmail.com'
     };
     var newData = {
         loc: {
@@ -25,8 +25,8 @@ var generateUsers = function generateUsers() {
         console.log(doc, "saved with success");
     });
     var query1 = {
-        username: 'Elo',
-        email: 'eroyant@gmail.com'
+        name: 'Elo',
+        token: 'eroyant@gmail.com'
     };
     var newData1 = {
         loc: {
@@ -45,8 +45,8 @@ var generateUsers = function generateUsers() {
     });
 
     var query2 = {
-        username: 'Arthur',
-        email: 'arthur.vinson@mailoop.com'
+        name: 'Arthur',
+        token: 'arthur.vinson@mailoop.com'
     };
     var newData2 = {
         loc: {
@@ -65,8 +65,8 @@ var generateUsers = function generateUsers() {
     });
 
     var query3 = {
-        username: 'Audrey',
-        email: 'audrey@gmail.com'
+        name: 'Audrey',
+        token: 'audrey@gmail.com'
     };
     var newData3 = {
         loc: {
