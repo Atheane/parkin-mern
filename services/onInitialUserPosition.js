@@ -2,12 +2,11 @@ import moment from 'moment'
 import User from '../models/user'
 import Spot from '../models/spot'
 import { formatSpot } from '../utils/format'
-import { email } from '../constants/currentUser'
 
 export default (socket) => {
-    socket.on("initialUserPosition", userPosition => {
+    socket.on("initialUserPosition", ({ userPosition, token }) => {
         console.log("initialUserPosition", userPosition)
-        if (userPosition) {
+        if (userPosition && token) {
             const newData = {
                 loc: {
                     type: 'Point',
@@ -15,7 +14,7 @@ export default (socket) => {
                 },
                 dateUpdate: moment()
             }
-            User.findOneAndUpdate({email}, newData, {upsert:true}, (err, doc) => {
+            User.findOneAndUpdate({token}, newData, {upsert:true}, (err, doc) => {
                 if (err) {console.log(err.name + ': ' + err.message) }
                 // todo: socket.emit saved avec success pour le front
                 console.log(doc, "saved with success");

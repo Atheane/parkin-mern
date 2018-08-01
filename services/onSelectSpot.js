@@ -5,11 +5,11 @@ import { formatSpot } from '../utils/format'
 import { email } from '../constants/currentUser'
 
 export default (socket) => {
-    socket.on("selectSpot", coord => {
+    socket.on("selectSpot", ({coord, token}) => {
         console.log("listen on selectSpot")
-        if (coord) {
+        if (coord && token) {
             console.log('coord', coord)
-            User.findOne({ email }, (err, currentUser) => {
+            User.findOne({ token }, (err, currentUser) => {
                 if (err) {console.log(err.name + ': ' + err.message) }
                 console.log("user here here here", currentUser)
                 const query =  {

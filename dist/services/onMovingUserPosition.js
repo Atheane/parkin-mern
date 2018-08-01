@@ -16,8 +16,6 @@ var _spot = require('../models/spot');
 
 var _spot2 = _interopRequireDefault(_spot);
 
-var _currentUser = require('../constants/currentUser');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -29,11 +27,14 @@ var geodist = require('geodist');
 var expo = new _expoServerSdk2.default();
 
 exports.default = function (socket) {
-  socket.on("movingUserPosition", function (userPosition) {
+  socket.on("movingUserPosition", function (_ref) {
+    var userPosition = _ref.userPosition,
+        token = _ref.token;
+
     console.log("movingUserPosition", userPosition);
-    if (userPosition) {
-      _user2.default.findOne({ email: _currentUser.email }, function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(err, user) {
+    if (userPosition && token) {
+      _user2.default.findOne({ token: token }, function () {
+        var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(err, user) {
           var pushToken;
           return regeneratorRuntime.wrap(function _callee3$(_context3) {
             while (1) {
@@ -83,7 +84,7 @@ exports.default = function (socket) {
                         // let chunks = expo.chunkPushNotifications(messages);
                         var tickets = [];
                         var pushNotifications = function () {
-                          var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                          var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
                             var ticketChunk;
                             return regeneratorRuntime.wrap(function _callee$(_context) {
                               while (1) {
@@ -116,7 +117,7 @@ exports.default = function (socket) {
                           }));
 
                           return function pushNotifications() {
-                            return _ref2.apply(this, arguments);
+                            return _ref3.apply(this, arguments);
                           };
                         }();
                         pushNotifications();
@@ -154,7 +155,7 @@ exports.default = function (socket) {
 
                         var receiptIdChunks = expo.chunkPushNotificationReceiptIds(receiptIds);
                         var retrieveErrors = function () {
-                          var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+                          var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
                             var _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, chunk, receipts, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, receipt;
 
                             return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -312,7 +313,7 @@ exports.default = function (socket) {
                           }));
 
                           return function retrieveErrors() {
-                            return _ref3.apply(this, arguments);
+                            return _ref4.apply(this, arguments);
                           };
                         }();
                         retrieveErrors();
@@ -336,7 +337,7 @@ exports.default = function (socket) {
         }));
 
         return function (_x, _x2) {
-          return _ref.apply(this, arguments);
+          return _ref2.apply(this, arguments);
         };
       }());
     } else {

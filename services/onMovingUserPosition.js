@@ -1,16 +1,15 @@
 import Expo from 'expo-server-sdk';
 import User from '../models/user'
 import Spot from '../models/spot'
-import { email } from '../constants/currentUser'
 const geodist = require('geodist')
 
 let expo = new Expo()
 
 export default (socket) => {
-  socket.on("movingUserPosition", userPosition => {
+  socket.on("movingUserPosition", ({ userPosition, token }) => {
     console.log("movingUserPosition", userPosition)
-    if (userPosition) {
-      User.findOne({email}, async (err, user) => {
+    if (userPosition && token) {
+      User.findOne({token}, async (err, user) => {
         console.log("user", user)
         if (err) {console.log(err.name + ': ' + err.message) }
         if (user) {

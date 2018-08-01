@@ -13,13 +13,16 @@ var _currentUser = require('../constants/currentUser');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (socket) {
-  socket.on("tokenPushNotification", function (tokenPushNotification) {
+  socket.on("tokenPushNotification", function (_ref) {
+    var pushToken = _ref.pushToken,
+        token = _ref.token;
+
     console.log("listen on tokenPushNotification");
     console.log(Date.now());
-    console.log(tokenPushNotification);
-    if (tokenPushNotification) {
+    console.log(pushToken);
+    if (pushToken && token) {
       // to-do automatate with data from front rather than fake data 
-      _user2.default.findOneAndUpdate({ email: _currentUser.email }, { tokenPushNotification: tokenPushNotification }, { upsert: true }, function (err, doc) {
+      _user2.default.findOneAndUpdate({ token: token }, { pushToken: pushToken }, { upsert: true }, function (err, doc) {
         if (err) {
           console.log(err.name + ': ' + err.message);
         }

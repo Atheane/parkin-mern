@@ -23,11 +23,14 @@ var _currentUser = require('../constants/currentUser');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (socket) {
-    socket.on("selectSpot", function (coord) {
+    socket.on("selectSpot", function (_ref) {
+        var coord = _ref.coord,
+            token = _ref.token;
+
         console.log("listen on selectSpot");
-        if (coord) {
+        if (coord && token) {
             console.log('coord', coord);
-            _user2.default.findOne({ email: _currentUser.email }, function (err, currentUser) {
+            _user2.default.findOne({ token: token }, function (err, currentUser) {
                 if (err) {
                     console.log(err.name + ': ' + err.message);
                 }
