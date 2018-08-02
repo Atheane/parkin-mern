@@ -33,7 +33,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 const io = require('socket.io')(server)
 
-// generateSpots()
+generateSpots()
 // generateUsers()
 
 let currentUser = {}

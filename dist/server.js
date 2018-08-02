@@ -68,7 +68,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var io = require('socket.io')(server);
 
-// generateSpots()
+(0, _spotsData2.default)();
 // generateUsers()
 
 var currentUser = {};
