@@ -34,6 +34,10 @@ var _onSelectSpot = require('./services/onSelectSpot');
 
 var _onSelectSpot2 = _interopRequireDefault(_onSelectSpot);
 
+var _onDeleteSpot = require('./services/onDeleteSpot');
+
+var _onDeleteSpot2 = _interopRequireDefault(_onDeleteSpot);
+
 var _spotsData = require('./constants/spotsData');
 
 var _spotsData2 = _interopRequireDefault(_spotsData);
@@ -73,6 +77,7 @@ io.on('connection', function (socket) {
     (0, _onMovingUserPosition2.default)(socket);
     (0, _onTokenPushNotification2.default)(socket);
     (0, _onSelectSpot2.default)(socket);
+    (0, _onDeleteSpot2.default)(socket);
 });
 
 app.set('port', port);
