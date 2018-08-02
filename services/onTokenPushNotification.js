@@ -1,5 +1,4 @@
 import User from '../models/user'
-import { email } from '../constants/currentUser'
 
 export default (socket) => {
     socket.on("tokenPushNotification", ({pushToken, token}) => {

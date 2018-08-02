@@ -18,8 +18,6 @@ var _spot2 = _interopRequireDefault(_spot);
 
 var _format = require('../utils/format');
 
-var _currentUser = require('../constants/currentUser');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (socket) {
@@ -35,6 +33,7 @@ exports.default = function (socket) {
                     console.log(err.name + ': ' + err.message);
                 }
                 console.log("user here here here", currentUser);
+
                 var query = {
                     loc: {
                         type: 'Point',
@@ -53,6 +52,7 @@ exports.default = function (socket) {
                     console.log(spot, "updated with success");
                     socket.emit("spotsAroundMe", [{ spot: (0, _format.formatSpot)(spot), selected: true }]);
                 });
+
                 _spot2.default.aggregate([{ "$geoNear": {
                         "near": {
                             "type": "Point",

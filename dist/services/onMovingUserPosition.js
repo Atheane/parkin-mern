@@ -76,7 +76,7 @@ exports.default = function (socket) {
                           data: { message: title + ' - ' + body }
                         };
                         socket.emit("spotNearMe", message);
-                        if (!_expoServerSdk2.default.isExpoPushToken(pushToken)) {
+                        if (!pushToken && !_expoServerSdk2.default.isExpoPushToken(pushToken)) {
                           console.error('Push token ' + pushToken + ' is not a valid Expo push token');
                         }
                         var messages = [];

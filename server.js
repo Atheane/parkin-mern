@@ -36,18 +36,15 @@ const io = require('socket.io')(server)
 generateSpots()
 // generateUsers()
 
-let currentUser = {}
-
 io.on('connection', (socket => {
     console.log('A client just joined on', socket.id)
-    currentUser[socket.id] = onUserInfo(socket)
+    onUserInfo(socket)
     onInitialUserPosition(socket)
     onMovingUserPosition(socket)
     onTokenPushNotification(socket)
     onSelectSpot(socket)
 }))
 
-export { currentUser }
 
 app.set('port', port)
 server.listen(port)

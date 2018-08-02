@@ -1,14 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _user = require('../models/user');
+var _user = require("../models/user");
 
 var _user2 = _interopRequireDefault(_user);
-
-var _currentUser = require('../constants/currentUser');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

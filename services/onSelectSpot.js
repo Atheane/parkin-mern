@@ -2,7 +2,6 @@ import moment from 'moment'
 import User from '../models/user'
 import Spot from '../models/spot'
 import { formatSpot } from '../utils/format'
-import { email } from '../constants/currentUser'
 
 export default (socket) => {
     socket.on("selectSpot", ({coord, token}) => {
@@ -12,6 +11,7 @@ export default (socket) => {
             User.findOne({ token }, (err, currentUser) => {
                 if (err) {console.log(err.name + ': ' + err.message) }
                 console.log("user here here here", currentUser)
+             
                 const query =  {
                     loc: {
                         type: 'Point',
@@ -28,6 +28,7 @@ export default (socket) => {
                     console.log(spot, "updated with success")
                     socket.emit("spotsAroundMe", [{ spot: formatSpot(spot), selected: true }])
                 })
+         
                 Spot.aggregate(
                     [
                         { "$geoNear": {

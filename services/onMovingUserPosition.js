@@ -36,7 +36,7 @@ export default (socket) => {
                   data: { message: `${title} - ${body}` }
                 }
                 socket.emit("spotNearMe", message)
-                if (!Expo.isExpoPushToken(pushToken)) {
+                if (!pushToken && !Expo.isExpoPushToken(pushToken)) {
                   console.error(`Push token ${pushToken} is not a valid Expo push token`)
                 }
                 let messages = []

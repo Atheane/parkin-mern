@@ -1,10 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.currentUser = undefined;
-
 var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
@@ -71,19 +66,14 @@ var io = require('socket.io')(server);
 (0, _spotsData2.default)();
 // generateUsers()
 
-var currentUser = {};
-
 io.on('connection', function (socket) {
     console.log('A client just joined on', socket.id);
-    currentUser[socket.id] = (0, _onUserInfo2.default)(socket);
+    (0, _onUserInfo2.default)(socket);
     (0, _onInitialUserPosition2.default)(socket);
     (0, _onMovingUserPosition2.default)(socket);
     (0, _onTokenPushNotification2.default)(socket);
     (0, _onSelectSpot2.default)(socket);
 });
-
-exports.currentUser = currentUser;
-
 
 app.set('port', port);
 server.listen(port);
