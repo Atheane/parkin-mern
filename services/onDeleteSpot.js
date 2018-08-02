@@ -4,8 +4,8 @@ import Spot from '../models/spot'
 import { formatSpot } from '../utils/format'
 
 export default (socket) => {
-    socket.on("selectSpot", ({coord, token}) => {
-        console.log("listen on selectSpot")
+    socket.on("deleteSpot", ({coord, token}) => {
+        console.log("listen on deleteSpot")
         if (coord && token) {
             console.log('coord', coord)
             User.findOne({ token }, (err, currentUser) => {
@@ -15,18 +15,13 @@ export default (socket) => {
                 const query =  {
                     loc: {
                         type: 'Point',
-                        coordinates: [ coord.longitude, coord.latitude] 
+                        coordinates: coord 
                     },
+                    active: false
                 }
-                const newData = {
-                    dateSave: moment(),
-                    active: false,
-                    assignedTo: currentUser
-                }
-                Spot.findOneAndUpdate(query, newData, {upsert:true}, (err, spot) => {
+                Spot.remove(query, (err) => {
                     if (err) {console.log(err.name + ': ' + err.message) }
-                    console.log(spot, "updated with success")
-                    socket.emit("spotsAroundMe", [{ spot: formatSpot(spot), selected: true }])
+                    console.log("deleted with success")
                 })
          
                 Spot.aggregate(
@@ -45,14 +40,20 @@ export default (socket) => {
                     (err,spots) => {
                         if (err) {console.log(err.name + ': ' + err.message) }
                         console.log("spots around me and active", spots)
-                        socket.broadcast.emit("spotsAroundMe", (spots) ? spots.map(spot => {
-                            return {spot: formatSpot(spot), selected: false}
-                        }) : spots)
+                        const toFormat = (s) => {
+                          return {
+                            spot: formatSpot(s),
+                            selected: false
+                          }
+                        }
+                        const formattedSpots = spots.map(toFormat)
+                        socket.emit("spotsAroundMe", (spots) ? formattedSpots : spots)
+                        socket.broadcast.emit("spotsAroundMe", (spots) ? formattedSpots : spots)
                     }
                 )
             })
         } else {
-            console.log("on selectSpot, no coordinates received from front", socket.id)
+            console.log("on deleteSpot, no coordinates received from front", socket.id)
         }
     })
 }

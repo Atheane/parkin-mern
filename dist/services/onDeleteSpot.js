@@ -21,11 +21,11 @@ var _format = require('../utils/format');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (socket) {
-    socket.on("selectSpot", function (_ref) {
+    socket.on("deleteSpot", function (_ref) {
         var coord = _ref.coord,
             token = _ref.token;
 
-        console.log("listen on selectSpot");
+        console.log("listen on deleteSpot");
         if (coord && token) {
             console.log('coord', coord);
             _user2.default.findOne({ token: token }, function (err, currentUser) {
@@ -37,20 +37,15 @@ exports.default = function (socket) {
                 var query = {
                     loc: {
                         type: 'Point',
-                        coordinates: [coord.longitude, coord.latitude]
-                    }
+                        coordinates: coord
+                    },
+                    active: false
                 };
-                var newData = {
-                    dateSave: (0, _moment2.default)(),
-                    active: false,
-                    assignedTo: currentUser
-                };
-                _spot2.default.findOneAndUpdate(query, newData, { upsert: true }, function (err, spot) {
+                _spot2.default.remove(query, function (err) {
                     if (err) {
                         console.log(err.name + ': ' + err.message);
                     }
-                    console.log(spot, "updated with success");
-                    socket.emit("spotsAroundMe", [{ spot: (0, _format.formatSpot)(spot), selected: true }]);
+                    console.log("deleted with success");
                 });
 
                 _spot2.default.aggregate([{ "$geoNear": {
@@ -66,13 +61,19 @@ exports.default = function (socket) {
                         console.log(err.name + ': ' + err.message);
                     }
                     console.log("spots around me and active", spots);
-                    socket.broadcast.emit("spotsAroundMe", spots ? spots.map(function (spot) {
-                        return { spot: (0, _format.formatSpot)(spot), selected: false };
-                    }) : spots);
+                    var toFormat = function toFormat(s) {
+                        return {
+                            spot: (0, _format.formatSpot)(s),
+                            selected: false
+                        };
+                    };
+                    var formattedSpots = spots.map(toFormat);
+                    socket.emit("spotsAroundMe", spots ? formattedSpots : spots);
+                    socket.broadcast.emit("spotsAroundMe", spots ? formattedSpots : spots);
                 });
             });
         } else {
-            console.log("on selectSpot, no coordinates received from front", socket.id);
+            console.log("on deleteSpot, no coordinates received from front", socket.id);
         }
     });
 };

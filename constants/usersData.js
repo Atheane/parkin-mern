@@ -4,8 +4,8 @@ const User = require('../models/user')
 
 const generateUsers = () => {
     const query = {
-        username: 'Come',
-        email: 'damien.biasotto@gmail.com',
+        name: 'Come',
+        token: 'damien.biasotto@gmail.com',
     }
     const newData = {
         loc: {
@@ -21,8 +21,8 @@ const generateUsers = () => {
         console.log(doc, "saved with success");
     })
     const query1 = {
-        username: 'Elo',
-        email: 'eroyant@gmail.com',
+        name: 'Elo',
+        token: 'eroyant@gmail.com',
     }
     const newData1 = {
         loc: {
@@ -39,8 +39,8 @@ const generateUsers = () => {
     })
 
     const query2 = {
-        username: 'Arthur',
-        email: 'arthur.vinson@mailoop.com',
+        name: 'Arthur',
+        token: 'arthur.vinson@mailoop.com',
     }
     const newData2 = {
         loc: {
@@ -57,8 +57,8 @@ const generateUsers = () => {
     })
 
     const query3 = {
-        username: 'Audrey',
-        email: 'audrey@gmail.com',
+        name: 'Audrey',
+        token: 'audrey@gmail.com',
     }
     const newData3 = {
         loc: {

@@ -14,6 +14,10 @@ var _mongoose2 = _interopRequireDefault(_mongoose);
 
 require('babel-polyfill');
 
+var _onUserInfo = require('./services/onUserInfo');
+
+var _onUserInfo2 = _interopRequireDefault(_onUserInfo);
+
 var _onInitialUserPosition = require('./services/onInitialUserPosition');
 
 var _onInitialUserPosition2 = _interopRequireDefault(_onInitialUserPosition);
@@ -29,6 +33,14 @@ var _onTokenPushNotification2 = _interopRequireDefault(_onTokenPushNotification)
 var _onSelectSpot = require('./services/onSelectSpot');
 
 var _onSelectSpot2 = _interopRequireDefault(_onSelectSpot);
+
+var _onDeleteSpot = require('./services/onDeleteSpot');
+
+var _onDeleteSpot2 = _interopRequireDefault(_onDeleteSpot);
+
+var _onGiveSpot = require('./services/onGiveSpot');
+
+var _onGiveSpot2 = _interopRequireDefault(_onGiveSpot);
 
 var _spotsData = require('./constants/spotsData');
 
@@ -60,14 +72,17 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 var io = require('socket.io')(server);
 
 (0, _spotsData2.default)();
-(0, _usersData2.default)();
+// generateUsers()
 
 io.on('connection', function (socket) {
     console.log('A client just joined on', socket.id);
+    (0, _onUserInfo2.default)(socket);
     (0, _onInitialUserPosition2.default)(socket);
     (0, _onMovingUserPosition2.default)(socket);
     (0, _onTokenPushNotification2.default)(socket);
     (0, _onSelectSpot2.default)(socket);
+    (0, _onDeleteSpot2.default)(socket);
+    (0, _onGiveSpot2.default)(socket);
 });
 
 app.set('port', port);

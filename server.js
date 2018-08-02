@@ -5,10 +5,13 @@ import index from './routes/index'
 import mongoose from 'mongoose'
 import 'babel-polyfill'
 
+import onUserInfo from './services/onUserInfo'
 import onInitialUserPosition from './services/onInitialUserPosition'
 import onMovingUserPosition from './services/onMovingUserPosition'
 import onTokenPushNotification from './services/onTokenPushNotification'
 import onSelectSpot from './services/onSelectSpot'
+import onDeleteSpot from './services/onDeleteSpot'
+import onGiveSpot from './services/onGiveSpot'
 
 import generateSpots from './constants/spotsData'
 import generateUsers from './constants/usersData'
@@ -33,15 +36,19 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 const io = require('socket.io')(server)
 
 generateSpots()
-generateUsers()
+// generateUsers()
 
 io.on('connection', (socket => {
     console.log('A client just joined on', socket.id)
+    onUserInfo(socket)
     onInitialUserPosition(socket)
     onMovingUserPosition(socket)
     onTokenPushNotification(socket)
     onSelectSpot(socket)
+    onDeleteSpot(socket)
+    onGiveSpot(socket)
 }))
+
 
 app.set('port', port)
 server.listen(port)

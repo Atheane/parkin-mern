@@ -18,14 +18,15 @@ var _spot2 = _interopRequireDefault(_spot);
 
 var _format = require('../utils/format');
 
-var _currentUser = require('../constants/currentUser');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (socket) {
-    socket.on("initialUserPosition", function (userPosition) {
+    socket.on("initialUserPosition", function (_ref) {
+        var userPosition = _ref.userPosition,
+            token = _ref.token;
+
         console.log("initialUserPosition", userPosition);
-        if (userPosition) {
+        if (userPosition && token) {
             var newData = {
                 loc: {
                     type: 'Point',
@@ -33,7 +34,7 @@ exports.default = function (socket) {
                 },
                 dateUpdate: (0, _moment2.default)()
             };
-            _user2.default.findOneAndUpdate({ email: _currentUser.email }, newData, { upsert: true }, function (err, doc) {
+            _user2.default.findOneAndUpdate({ token: token }, newData, { upsert: true }, function (err, doc) {
                 if (err) {
                     console.log(err.name + ': ' + err.message);
                 }
