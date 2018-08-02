@@ -67,7 +67,7 @@ exports.default = function (socket) {
                       if (shouldPushANotification && counter === 0) {
                         console.log(counter);
                         var title = 'Parkin';
-                        var body = 'est à moins de 80m';
+                        var body = 'ête vous garé sur la place ?';
                         var message = {
                           to: pushToken,
                           sound: 'default',

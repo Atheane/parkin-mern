@@ -4,6 +4,7 @@ import Spot from '../models/spot'
 const geodist = require('geodist')
 
 let expo = new Expo()
+let firstSpot
 
 export default (socket) => {
   socket.on("movingUserPosition", ({ userPosition, token }) => {
@@ -25,9 +26,10 @@ export default (socket) => {
               )
               let counter = 0
               if (shouldPushANotification && counter === 0) {
+                counter += 1
                 console.log(counter)
                 const title = 'Parkin'
-                const body = 'est à moins de 80m'
+                const body = 'ête vous garé sur la place ?'
                 const message = {
                   to: pushToken,
                   sound: 'default',

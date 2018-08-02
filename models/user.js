@@ -12,7 +12,8 @@ var UserSchema = new Schema(
     pushToken: {type: String, min: 3, max: 100},
     assignedSpot: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Spot'
+      ref: 'Spot',
+      unique: true
     }],
     active: {type: Boolean},
     dateInscription: {type: Date},
