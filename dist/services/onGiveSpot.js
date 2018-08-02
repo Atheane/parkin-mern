@@ -21,11 +21,11 @@ var _format = require('../utils/format');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (socket) {
-    socket.on("deleteSpot", function (_ref) {
+    socket.on("giveSpot", function (_ref) {
         var coord = _ref.coord,
             token = _ref.token;
 
-        console.log("listen on deleteSpot");
+        console.log("listen on giveSpot");
         if (coord && token) {
             console.log('coord', coord);
             _user2.default.findOne({ token: token }, function (err, currentUser) {
@@ -45,7 +45,7 @@ exports.default = function (socket) {
                     if (err) {
                         console.log(err.name + ': ' + err.message);
                     }
-                    console.log("deleted with success");
+                    console.log("given with success");
                 });
 
                 _spot2.default.aggregate([{ "$geoNear": {

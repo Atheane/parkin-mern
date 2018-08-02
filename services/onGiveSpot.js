@@ -4,8 +4,8 @@ import Spot from '../models/spot'
 import { formatSpot } from '../utils/format'
 
 export default (socket) => {
-    socket.on("deleteSpot", ({coord, token}) => {
-        console.log("listen on deleteSpot")
+    socket.on("giveSpot", ({coord, token}) => {
+        console.log("listen on giveSpot")
         if (coord && token) {
             console.log('coord', coord)
             User.findOne({ token }, (err, currentUser) => {
@@ -21,7 +21,7 @@ export default (socket) => {
                 }
                 Spot.create(query, (err) => {
                     if (err) {console.log(err.name + ': ' + err.message) }
-                    console.log("deleted with success")
+                    console.log("given with success")
                 })
          
                 Spot.aggregate(
