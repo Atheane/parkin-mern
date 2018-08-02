@@ -11,6 +11,7 @@ import onMovingUserPosition from './services/onMovingUserPosition'
 import onTokenPushNotification from './services/onTokenPushNotification'
 import onSelectSpot from './services/onSelectSpot'
 import onDeleteSpot from './services/onDeleteSpot'
+import onGiveSpot from './services/onGiveSpot'
 
 import generateSpots from './constants/spotsData'
 import generateUsers from './constants/usersData'
@@ -45,6 +46,7 @@ io.on('connection', (socket => {
     onTokenPushNotification(socket)
     onSelectSpot(socket)
     onDeleteSpot(socket)
+    onGiveSpot(socket)
 }))
 
 

@@ -37,11 +37,11 @@ exports.default = function (socket) {
                 var query = {
                     loc: {
                         type: 'Point',
-                        coordinates: coord
+                        coordinates: [coord.longitude, coord.latitude]
                     },
-                    active: false
+                    active: true
                 };
-                _spot2.default.remove(query, function (err) {
+                _spot2.default.create(query, function (err) {
                     if (err) {
                         console.log(err.name + ': ' + err.message);
                     }
@@ -73,7 +73,7 @@ exports.default = function (socket) {
                 });
             });
         } else {
-            console.log("on deleteSpot, no coordinates received from front", socket.id);
+            console.log("on giveSpot, no coordinates received from front", socket.id);
         }
     });
 };
