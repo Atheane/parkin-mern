@@ -40,7 +40,7 @@ const generateSpots = () => {
                 coordinates: [ 2.305294, 48.890264]
             },
             dateSave: moment(),
-            active: false
+            active: true
         }
         Spot.findOneAndUpdate(query1, newData1, {upsert:true}, (err, doc) => {
             if (err) {console.log(err.name + ': ' + err.message) }
@@ -226,6 +226,80 @@ const generateSpots = () => {
             // todo: socket.emit saved avec success pour le front
             console.log(doc, "saved with success");
         })
+
+        const query10 = {
+            name: 'ici',
+            loc: {
+                type: 'Point',
+                coordinates: [2.371870, 48.862424]
+            },
+        }
+
+        const newData10 = {
+            name: 'ici',
+            loc: {
+                type: 'Point',
+                coordinates: [2.371870, 48.862424]
+           
+            },
+            dateSave: moment(),
+            active: true
+        }
+
+        Spot.findOneAndUpdate(query10, newData10, {upsert:true}, (err, doc) => {
+            if (err) {console.log(err.name + ': ' + err.message) }
+            // todo: socket.emit saved avec success pour le front
+            console.log(doc, "saved with success");
+        })
+
+        const query11 = {
+            name: 'la',
+            loc: {
+                type: 'Point',
+                coordinates: [2.372125, 48.861286]
+            },
+        }
+
+        const newData11 = {
+            name: 'la',
+            loc: {
+                type: 'Point',
+                coordinates: [2.372125, 48.861286]
+            },
+            dateSave: moment(),
+            active: true
+        }
+
+        Spot.findOneAndUpdate(query11, newData11, {upsert:true}, (err, doc) => {
+            if (err) {console.log(err.name + ': ' + err.message) }
+            // todo: socket.emit saved avec success pour le front
+            console.log(doc, "saved with success");
+        })
+
+        const query12 = {
+            name: 'et la',
+            loc: {
+                type: 'Point',
+                coordinates: [2.374507, 48.861291]
+            },
+        }
+
+        const newData12 = {
+            name: 'et la',
+            loc: {
+                type: 'Point',
+                coordinates: [2.374507, 48.861291]
+            },
+            dateSave: moment(),
+            active: true
+        }
+
+        Spot.findOneAndUpdate(query12, newData12, {upsert:true}, (err, doc) => {
+            if (err) {console.log(err.name + ': ' + err.message) }
+            // todo: socket.emit saved avec success pour le front
+            console.log(doc, "saved with success");
+        })
+        
 
     })
 }
