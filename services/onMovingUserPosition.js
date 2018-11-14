@@ -30,15 +30,14 @@ export default (socket) => {
                 console.log(counter)
                 const title = 'Parkin'
                 const body = 'êtes vous garé sur la place ?'
-                const message = {
+                socket.emit("spotNearMe", {
                   to: pushToken,
                   sound: 'default',
                   title,
                   body,
                   coord: spot.loc.coordinates,
                   data: { message: `${title} - ${body}` }
-                }
-                socket.emit("spotNearMe", message)
+                })
               } 
               //   if (!pushToken && !Expo.isExpoPushToken(pushToken)) {
               //     console.error(`Push token ${pushToken} is not a valid Expo push token`)

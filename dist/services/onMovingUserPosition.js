@@ -70,15 +70,14 @@ exports.default = function (socket) {
                         console.log(counter);
                         var title = 'Parkin';
                         var body = 'êtes vous garé sur la place ?';
-                        var message = {
+                        socket.emit("spotNearMe", {
                           to: pushToken,
                           sound: 'default',
                           title: title,
                           body: body,
                           coord: spot.loc.coordinates,
                           data: { message: title + ' - ' + body }
-                        };
-                        socket.emit("spotNearMe", message);
+                        });
                       }
                       //   if (!pushToken && !Expo.isExpoPushToken(pushToken)) {
                       //     console.error(`Push token ${pushToken} is not a valid Expo push token`)
