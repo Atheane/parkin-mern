@@ -21,11 +21,11 @@ var _format = require('../utils/format');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (socket) {
-    socket.on("initialUserPosition", function (_ref) {
+    socket.on("userPosition", function (_ref) {
         var userPosition = _ref.userPosition,
             token = _ref.token;
 
-        console.log("initialUserPosition", userPosition);
+        console.log("userPosition", userPosition);
         if (userPosition && token) {
             var newData = {
                 loc: {
@@ -59,7 +59,7 @@ exports.default = function (socket) {
                 }) : spots);
             });
         } else {
-            console.log("onInitialUserPosition, no data received from front", socket.id);
+            console.log("onUserPosition, no data received from front", socket.id);
         }
     });
 };

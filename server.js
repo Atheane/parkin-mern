@@ -6,7 +6,7 @@ import mongoose from 'mongoose'
 import 'babel-polyfill'
 
 import onUserInfo from './services/onUserInfo'
-import onInitialUserPosition from './services/onInitialUserPosition'
+import onUserPosition from './services/onUserPosition'
 import onMovingUserPosition from './services/onMovingUserPosition'
 import onTokenPushNotification from './services/onTokenPushNotification'
 import onSelectSpot from './services/onSelectSpot'
@@ -41,14 +41,13 @@ generateSpots()
 io.on('connection', (socket => {
     console.log('A client just joined on', socket.id)
     onUserInfo(socket)
-    onInitialUserPosition(socket)
+    onUserPosition(socket)
     onMovingUserPosition(socket)
     onTokenPushNotification(socket)
     onSelectSpot(socket)
     onDeleteSpot(socket)
     onGiveSpot(socket)
 }))
-
 
 app.set('port', port)
 server.listen(port)
