@@ -54,7 +54,7 @@ exports.default = function (socket) {
                     console.log(err.name + ': ' + err.message);
                 }
                 console.log("spots around me and active", spots);
-                socket.emit("spotsAroundMe", spots ? spots.map(function (spot) {
+                socket.emit("GET_SPOTS", spots ? spots.map(function (spot) {
                     return { spot: (0, _format.formatSpot)(spot), selected: false };
                 }) : spots);
             });

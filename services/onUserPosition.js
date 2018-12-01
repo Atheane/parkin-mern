@@ -35,7 +35,7 @@ export default (socket) => {
                 (err,spots) => {
                     if (err) {console.log(err.name + ': ' + err.message) }
                     console.log("spots around me and active", spots)
-                    socket.emit("spotsAroundMe", (spots) ? spots.map(spot => {
+                    socket.emit("GET_SPOTS", (spots) ? spots.map(spot => {
                         return {spot: formatSpot(spot), selected: false}
                     }) : spots)
                 }
