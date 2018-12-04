@@ -25,7 +25,7 @@ const server = require('http').Server(app)
 app.use(helmet())
 app.use('/', index)
 
-const mongoDB = process.env.MONGODB_URI || 'mongodb://NodeApp:T8hEtfTXzCYe@ds018848.mlab.com:18848/parkin'
+const mongoDB = process.env.MONGODB_URI
 mongoose.connect(mongoDB, { useNewUrlParser: true })
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise
