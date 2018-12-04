@@ -4,8 +4,8 @@ import Spot from '../models/spot'
 import { formatSpot } from '../utils/format'
 
 export default (socket) => {
-    socket.on("userPosition", ({ userPosition, token }) => {
-        console.log("userPosition", userPosition)
+    socket.on("EMIT_USERPOSITION", ({ userPosition, token }) => {
+        console.log("EMIT_USERPOSITION", userPosition)
         if (userPosition && token) {
             const newData = {
                 loc: {
@@ -35,13 +35,13 @@ export default (socket) => {
                 (err,spots) => {
                     if (err) {console.log(err.name + ': ' + err.message) }
                     console.log("spots around me and active", spots)
-                    socket.emit("GET_SPOTS", (spots) ? spots.map(spot => {
+                    socket.emit("ON_SPOTS", (spots) ? spots.map(spot => {
                         return {spot: formatSpot(spot), selected: false}
                     }) : spots)
                 }
             )
         } else {
-            console.log("onUserPosition, no data received from front", socket.id)
+            console.log("on EMIT_POSITION, no data received from front", socket.id)
         }
     })
 }

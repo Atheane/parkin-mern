@@ -4,8 +4,8 @@ import Spot from '../models/spot'
 import { formatSpot } from '../utils/format'
 
 export default (socket) => {
-    socket.on("selectSpot", ({coord, token}) => {
-        console.log("listen on selectSpot")
+    socket.on("EMIT_SELECTSPOT", ({coord, token}) => {
+        console.log("listen on EMIT_SELECTSPOT")
         if (coord && token) {
             console.log('coord', coord)
             User.findOne({ token }, (err, currentUser) => {
@@ -26,7 +26,7 @@ export default (socket) => {
                 Spot.findOneAndUpdate(query, newData, {upsert:true}, (err, spot) => {
                     if (err) {console.log(err.name + ': ' + err.message) }
                     console.log(spot, "updated with success")
-                    socket.emit("spotsAroundMe", [{ spot: formatSpot(spot), selected: true }])
+                    socket.emit("ON_SPOTS", [{ spot: formatSpot(spot), selected: true }])
                 })
          
                 Spot.aggregate(
@@ -45,14 +45,14 @@ export default (socket) => {
                     (err,spots) => {
                         if (err) {console.log(err.name + ': ' + err.message) }
                         console.log("spots around me and active", spots)
-                        socket.broadcast.emit("spotsAroundMe", (spots) ? spots.map(spot => {
+                        socket.broadcast.emit("ON_SPOTS", (spots) ? spots.map(spot => {
                             return {spot: formatSpot(spot), selected: false}
                         }) : spots)
                     }
                 )
             })
         } else {
-            console.log("on selectSpot, no coordinates received from front", socket.id)
+            console.log("on EMIT_SELECTSPOT, no coordinates received from front", socket.id)
         }
     })
 }
