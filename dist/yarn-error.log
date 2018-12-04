@@ -1,0 +1,61 @@
+Arguments: 
+  /usr/local/Cellar/node/10.6.0/bin/node /usr/local/Cellar/yarn/1.7.0/libexec/bin/yarn.js add rimraf
+
+PATH: 
+  /usr/local/lib/npm-packages/bin:/Users/athean/.rbenv/shims:/home/atheane/mongodb/mongodb-linux-x86_64-ubuntu1604-3.6.2/bin:/Users/athean/anaconda3/bin:./bin:/usr/bin/:/Users/athean/.rbenv/shims:/usr/local/opt/rbenv/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/lib/npm-packages/bin:/Users/athean/.rbenv/shims:/home/atheane/mongodb/mongodb-linux-x86_64-ubuntu1604-3.6.2/bin:/Users/athean/anaconda3/bin:./bin:/usr/bin/:/usr/local/opt/rbenv/bin:/usr/local/sbin:/opt/yarn-1.0.2/bin:/Users/athean/Library/Android/sdk/tools:/Users/athean/Library/Android/sdk/tools/bin:/Users/athean/Library/Android/sdk/platform-tools:/usr/local/sbin:/opt/yarn-1.0.2/bin:/Users/athean/Library/Android/sdk/tools:/Users/athean/Library/Android/sdk/tools/bin:/Users/athean/Library/Android/sdk/platform-tools
+
+Yarn version: 
+  1.7.0
+
+Node version: 
+  10.6.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/athean/code/Atheane/parkin-mesn/package.json: Unexpected token } in JSON at position 597
+      at JSON.parse (<anonymous>)
+      at /usr/local/Cellar/yarn/1.7.0/libexec/lib/cli.js:1130:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.7.0/libexec/lib/cli.js:98:30)
+      at /usr/local/Cellar/yarn/1.7.0/libexec/lib/cli.js:109:13
+
+npm manifest: 
+  {
+    "dependencies": {
+      "babel-polyfill": "^6.26.0",
+      "expo-server-sdk": "^3.0.0",
+      "express": "^4.16.3",
+      "geodist": "^0.2.1",
+      "helmet": "^3.15.0",
+      "moment": "^2.22.2",
+      "mongoose": "^5.2.3",
+      "nodemon": "^1.18.3",
+      "socket.io": "^2.1.1"
+    },
+    "name": "parkin-mesn",
+    "version": "1.0.0",
+    "engines": {
+      "node": "10.6.0"
+    },
+    "main": "server.js",
+    "repository": "git@github.com:Atheane/parkin-mesn.git",
+    "author": "Elodie Royant <eroyant@gmail.com>",
+    "license": "MIT",
+    "devDependencies": {
+      "babel-cli": "^6.26.0",
+      "babel-preset-env": "^1.7.0",
+    },
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+      "start": "npm run build && node dist/server.js"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
