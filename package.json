@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "babel-cli": "^6.26.0",
     "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "expo-server-sdk": "^3.0.0",
     "express": "^4.16.3",
     "geodist": "^0.2.1",
@@ -20,13 +22,9 @@
   "repository": "git@github.com:Atheane/parkin-mesn.git",
   "author": "Elodie Royant <eroyant@gmail.com>",
   "license": "MIT",
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf dist/",
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
     "start": "npm run build && node dist/server.js"
   }
 }
