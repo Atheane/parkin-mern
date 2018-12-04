@@ -22,7 +22,7 @@ export default (socket) => {
               const shouldPushANotification = geodist(
                 {lat: userPosition.latitude, lon: userPosition.longitude},
                 {lat: spot.loc.coordinates[1], lon: spot.loc.coordinates[0]},
-                {unit: 'meters', limit: 20}
+                {unit: 'meters', limit: 50}
               )
               let counter = 0
               if (shouldPushANotification && counter === 0) {
