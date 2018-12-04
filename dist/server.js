@@ -90,7 +90,6 @@ var collection = exports.collection = new _socketsManager.Sockets();
 io.on('connection', function (socket) {
     console.log('A client just joined on', socket.id);
     collection.add(socket);
-
     (0, _onUserInfo2.default)(socket);
     (0, _onUserPosition2.default)(socket);
     (0, _onMovingUserPosition2.default)(socket);
@@ -98,6 +97,11 @@ io.on('connection', function (socket) {
     (0, _onSelectSpot2.default)(socket, collection);
     (0, _onDeleteSpot2.default)(socket);
     (0, _onGiveSpot2.default)(socket);
+
+    socket.on('disconnected', function () {
+        console.log('A client just disconnected', socket.id);
+        collection.remove(socket);
+    });
 });
 
 app.set('port', port);
