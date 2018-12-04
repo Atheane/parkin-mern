@@ -28,11 +28,11 @@ var expo = new _expoServerSdk2.default();
 var firstSpot = void 0;
 
 exports.default = function (socket) {
-  socket.on("movingUserPosition", function (_ref) {
+  socket.on("EMIT_MOVINGUSERPOSITION", function (_ref) {
     var userPosition = _ref.userPosition,
         token = _ref.token;
 
-    console.log("movingUserPosition", userPosition);
+    console.log("EMIT_MOVINGUSERPOSITION", userPosition);
     if (userPosition && token) {
       _user2.default.findOne({ token: token }, function () {
         var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(err, user) {
@@ -70,7 +70,7 @@ exports.default = function (socket) {
                         console.log(counter);
                         var title = 'Parkin';
                         var body = 'êtes vous garé sur la place ?';
-                        socket.emit("spotNearMe", {
+                        socket.emit("ON_ARRIVAL", {
                           to: pushToken,
                           sound: 'default',
                           title: title,
@@ -136,14 +136,14 @@ exports.default = function (socket) {
                       // retrieveErrors()
                       // }
                     } else {
-                      console.log("onMovingUserPosition, No spot assined to user", user);
+                      console.log("on EMIT_MOVINGUSERPOSITION, No spot assined to user", user);
                     }
                   });
                   _context.next = 10;
                   break;
 
                 case 9:
-                  console.log("onMovingUserPosition, No user found in DB");
+                  console.log("on EMIT_MOVINGUSERPOSITION, No user found in DB");
 
                 case 10:
                 case 'end':
@@ -158,7 +158,7 @@ exports.default = function (socket) {
         };
       }());
     } else {
-      console.log("onMovingUserPosition, no data received from front", socket.id);
+      console.log("on EMIT_MOVINGUSERPOSITION, no data received from front", socket.id);
     }
   });
 };
