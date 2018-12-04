@@ -3,6 +3,7 @@
 import express from 'express'
 import index from './routes/index'
 import mongoose from 'mongoose'
+import helmet from 'helmet'
 import 'babel-polyfill'
 
 import onUserInfo from './services/onUserInfo'
@@ -21,7 +22,7 @@ const port = process.env.PORT || '3000'
 
 const app = express()
 const server = require('http').Server(app)
-
+app.use(helmet())
 app.use('/', index)
 
 const mongoDB = 'mongodb://NodeApp:T8hEtfTXzCYe@ds018848.mlab.com:18848/parkin'

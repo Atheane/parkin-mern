@@ -12,6 +12,10 @@ var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
+var _helmet = require('helmet');
+
+var _helmet2 = _interopRequireDefault(_helmet);
+
 require('babel-polyfill');
 
 var _onUserInfo = require('./services/onUserInfo');
@@ -57,7 +61,7 @@ var port = process.env.PORT || '3000';
 
 var app = (0, _express2.default)();
 var server = require('http').Server(app);
-
+app.use((0, _helmet2.default)());
 app.use('/', _index2.default);
 
 var mongoDB = 'mongodb://NodeApp:T8hEtfTXzCYe@ds018848.mlab.com:18848/parkin';
