@@ -2,6 +2,7 @@ import moment from 'moment'
 import User from '../models/user'
 import Spot from '../models/spot'
 import { formatSpot } from '../utils/format'
+import { collection } from '../server.js'
 
 export default (socket) => {
     socket.on("EMIT_SELECTSPOT", ({coord, token}) => {
@@ -27,6 +28,7 @@ export default (socket) => {
                     if (err) {console.log(err.name + ': ' + err.message) }
                     console.log(spot, "updated with success")
                     socket.emit("ON_SPOTS", [{ spot: formatSpot(spot), selected: true }])
+                    collection.remove(socket)
                 })
          
                 Spot.aggregate(
@@ -45,9 +47,12 @@ export default (socket) => {
                     (err,spots) => {
                         if (err) {console.log(err.name + ': ' + err.message) }
                         console.log("spots around me and active", spots)
-                        socket.broadcast.emit("ON_SPOTS", (spots) ? spots.map(spot => {
+                        const data = (spots) ? spots.map(spot => {
                             return {spot: formatSpot(spot), selected: false}
-                        }) : spots)
+                        }) : spots
+
+                        collection.emit('ON_SPOTS', data)
+
                     }
                 )
             })

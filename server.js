@@ -14,6 +14,8 @@ import onSelectSpot from './services/onSelectSpot'
 import onDeleteSpot from './services/onDeleteSpot'
 import onGiveSpot from './services/onGiveSpot'
 
+import { Sockets } from './utils/socketsManager'
+
 import generateSpots from './constants/spotsData'
 import generateUsers from './constants/usersData'
 
@@ -25,7 +27,7 @@ const server = require('http').Server(app)
 app.use(helmet())
 app.use('/', index)
 
-const mongoDB = process.env.MONGODB_URI
+const mongoDB = process.env.MONGODB_URI || "mongodb://NodeApp:T8hEtfTXzCYe@ds018848.mlab.com:18848/parkin"
 mongoose.connect(mongoDB, { useNewUrlParser: true })
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise
@@ -39,16 +41,26 @@ const io = require('socket.io')(server)
 generateSpots()
 // generateUsers()
 
+export const collection = new Sockets()
+
 io.on('connection', (socket => {
     console.log('A client just joined on', socket.id)
+    collection.add(socket)
     onUserInfo(socket)
     onUserPosition(socket)
     onMovingUserPosition(socket)
     onTokenPushNotification(socket)
-    onSelectSpot(socket)
+    onSelectSpot(socket, collection)
     onDeleteSpot(socket)
     onGiveSpot(socket)
+
+    socket.on('disconnected', () => {
+        console.log('A client just disconnected', socket.id)
+        collection.remove(socket)
+    })
 }))
+
+
 
 app.set('port', port)
 server.listen(port)
