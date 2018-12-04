@@ -1,7 +1,7 @@
-import Expo from 'expo-server-sdk';
+import Expo from 'expo-server-sdk'
 import User from '../models/user'
 import Spot from '../models/spot'
-const geodist = require('geodist')
+import geodist from 'geodist'
 
 let expo = new Expo()
 let firstSpot
@@ -30,16 +30,15 @@ export default (socket) => {
                 console.log(counter)
                 const title = 'Parkin'
                 const body = 'êtes vous garé sur la place ?'
-                const message = {
+                socket.emit("spotNearMe", {
                   to: pushToken,
                   sound: 'default',
                   title,
                   body,
                   coord: spot.loc.coordinates,
                   data: { message: `${title} - ${body}` }
-                }
-                socket.emit("spotNearMe", message)
-              }
+                })
+              } 
               //   if (!pushToken && !Expo.isExpoPushToken(pushToken)) {
               //     console.error(`Push token ${pushToken} is not a valid Expo push token`)
               //   }

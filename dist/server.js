@@ -18,9 +18,9 @@ var _onUserInfo = require('./services/onUserInfo');
 
 var _onUserInfo2 = _interopRequireDefault(_onUserInfo);
 
-var _onInitialUserPosition = require('./services/onInitialUserPosition');
+var _onUserPosition = require('./services/onUserPosition');
 
-var _onInitialUserPosition2 = _interopRequireDefault(_onInitialUserPosition);
+var _onUserPosition2 = _interopRequireDefault(_onUserPosition);
 
 var _onMovingUserPosition = require('./services/onMovingUserPosition');
 
@@ -77,7 +77,7 @@ var io = require('socket.io')(server);
 io.on('connection', function (socket) {
     console.log('A client just joined on', socket.id);
     (0, _onUserInfo2.default)(socket);
-    (0, _onInitialUserPosition2.default)(socket);
+    (0, _onUserPosition2.default)(socket);
     (0, _onMovingUserPosition2.default)(socket);
     (0, _onTokenPushNotification2.default)(socket);
     (0, _onSelectSpot2.default)(socket);

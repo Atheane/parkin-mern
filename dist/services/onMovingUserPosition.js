@@ -16,11 +16,13 @@ var _spot = require('../models/spot');
 
 var _spot2 = _interopRequireDefault(_spot);
 
+var _geodist = require('geodist');
+
+var _geodist2 = _interopRequireDefault(_geodist);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-var geodist = require('geodist');
 
 var expo = new _expoServerSdk2.default();
 var firstSpot = void 0;
@@ -61,22 +63,21 @@ exports.default = function (socket) {
                       console.log(err.name + ': ' + err.message);
                     }
                     if (spot) {
-                      var shouldPushANotification = geodist({ lat: userPosition.latitude, lon: userPosition.longitude }, { lat: spot.loc.coordinates[1], lon: spot.loc.coordinates[0] }, { unit: 'meters', limit: 80 });
+                      var shouldPushANotification = (0, _geodist2.default)({ lat: userPosition.latitude, lon: userPosition.longitude }, { lat: spot.loc.coordinates[1], lon: spot.loc.coordinates[0] }, { unit: 'meters', limit: 80 });
                       var counter = 0;
                       if (shouldPushANotification && counter === 0) {
                         counter += 1;
                         console.log(counter);
                         var title = 'Parkin';
                         var body = 'êtes vous garé sur la place ?';
-                        var message = {
+                        socket.emit("spotNearMe", {
                           to: pushToken,
                           sound: 'default',
                           title: title,
                           body: body,
                           coord: spot.loc.coordinates,
                           data: { message: title + ' - ' + body }
-                        };
-                        socket.emit("spotNearMe", message);
+                        });
                       }
                       //   if (!pushToken && !Expo.isExpoPushToken(pushToken)) {
                       //     console.error(`Push token ${pushToken} is not a valid Expo push token`)
