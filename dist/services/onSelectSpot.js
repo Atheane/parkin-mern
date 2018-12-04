@@ -44,10 +44,8 @@ exports.default = function (socket) {
                 };
                 var newData = {
                     dateSave: (0, _moment2.default)(),
-                    active: false,
-                    assignedTo: currentUser
-                };
-                _spot2.default.findOneAndUpdate(query, newData, { upsert: true }, function (err, spot) {
+                    active: false // to-do if two people ask at the same place exactly and the sale time exactly, we may have pb
+                };_spot2.default.findOneAndUpdate(query, newData, { upsert: true }, function (err, spot) {
                     if (err) {
                         console.log(err.name + ': ' + err.message);
                     }
