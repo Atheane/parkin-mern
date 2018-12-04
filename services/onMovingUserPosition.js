@@ -7,8 +7,8 @@ let expo = new Expo()
 let firstSpot
 
 export default (socket) => {
-  socket.on("movingUserPosition", ({ userPosition, token }) => {
-    console.log("movingUserPosition", userPosition)
+  socket.on("EMIT_MOVINGUSERPOSITION", ({ userPosition, token }) => {
+    console.log("EMIT_MOVINGUSERPOSITION", userPosition)
     if (userPosition && token) {
       User.findOne({token}, async (err, user) => {
         console.log("user", user)
@@ -30,7 +30,7 @@ export default (socket) => {
                 console.log(counter)
                 const title = 'Parkin'
                 const body = 'êtes vous garé sur la place ?'
-                socket.emit("spotNearMe", {
+                socket.emit("ON_ARRIVAL", {
                   to: pushToken,
                   sound: 'default',
                   title,
@@ -96,15 +96,15 @@ export default (socket) => {
               // retrieveErrors()
               // }
             } else {
-              console.log("onMovingUserPosition, No spot assined to user", user)
+              console.log("on EMIT_MOVINGUSERPOSITION, No spot assined to user", user)
             }
           })
         } else {
-          console.log("onMovingUserPosition, No user found in DB")
+          console.log("on EMIT_MOVINGUSERPOSITION, No user found in DB")
         }
       })
     } else {
-      console.log("onMovingUserPosition, no data received from front", socket.id)
+      console.log("on EMIT_MOVINGUSERPOSITION, no data received from front", socket.id)
     }
   })
 }

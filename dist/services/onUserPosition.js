@@ -59,7 +59,7 @@ exports.default = function (socket) {
                 }) : spots);
             });
         } else {
-            console.log("on EMIT_POSITION, no data received from front", socket.id);
+            console.log("on EMIT_USERPOSITION, no data received from front", socket.id);
         }
     });
 };
