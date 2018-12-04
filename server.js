@@ -46,7 +46,6 @@ export const collection = new Sockets()
 io.on('connection', (socket => {
     console.log('A client just joined on', socket.id)
     collection.add(socket)
-
     onUserInfo(socket)
     onUserPosition(socket)
     onMovingUserPosition(socket)
@@ -54,7 +53,14 @@ io.on('connection', (socket => {
     onSelectSpot(socket, collection)
     onDeleteSpot(socket)
     onGiveSpot(socket)
+
+    socket.on('disconnected', () => {
+        console.log('A client just disconnected', socket.id)
+        collection.remove(socket)
+    })
 }))
+
+
 
 app.set('port', port)
 server.listen(port)
