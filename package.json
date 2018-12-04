@@ -12,6 +12,9 @@
   },
   "name": "parkin-mesn",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.6.0"
+  },
   "main": "server.js",
   "repository": "git@github.com:Atheane/parkin-mesn.git",
   "author": "Elodie Royant <eroyant@gmail.com>",
