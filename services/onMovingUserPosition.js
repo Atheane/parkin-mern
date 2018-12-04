@@ -14,15 +14,15 @@ export default (socket) => {
         console.log("user", user)
         if (err) {console.log(err.name + ': ' + err.message) }
         if (user) {
-          const pushToken = await user.tokenPushNotification
-          Spot.findOne({assignedTo: user}, (err, spot) => {
+          // const pushToken = await user.tokenPushNotification
+          Spot.findOne({assignedToUser: token}, (err, spot) => {
             console.log("spot", spot)
             if (err) {console.log(err.name + ': ' + err.message) }
             if (spot) {
               const shouldPushANotification = geodist(
                 {lat: userPosition.latitude, lon: userPosition.longitude},
                 {lat: spot.loc.coordinates[1], lon: spot.loc.coordinates[0]},
-                {unit: 'meters', limit: 80}
+                {unit: 'meters', limit: 20}
               )
               let counter = 0
               if (shouldPushANotification && counter === 0) {
@@ -31,7 +31,7 @@ export default (socket) => {
                 const title = 'Parkin'
                 const body = 'êtes vous garé sur la place ?'
                 socket.emit("ON_ARRIVAL", {
-                  to: pushToken,
+                  to: token,
                   sound: 'default',
                   title,
                   body,

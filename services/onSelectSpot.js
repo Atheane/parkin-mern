@@ -22,6 +22,7 @@ export default (socket) => {
                 const newData = {
                     dateSave: moment(),
                     active: false,
+                    assignedToUser: token
                 }   // to-do if two people ask at the same place exactly and the sale time exactly, we may have pb
                 Spot.findOneAndUpdate(query, newData, {upsert:true}, (err, spot) => {
                     if (err) {console.log(err.name + ': ' + err.message) }
