@@ -18,14 +18,16 @@ var _spot2 = _interopRequireDefault(_spot);
 
 var _format = require('../utils/format');
 
+var _server = require('../server.js');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (socket) {
-    socket.on("deleteSpot", function (_ref) {
+    socket.on("EMIT_DELETESPOT", function (_ref) {
         var coord = _ref.coord,
             token = _ref.token;
 
-        console.log("listen on deleteSpot");
+        console.log("listen on EMIT_DELETESPOT");
         if (coord && token) {
             console.log('coord', coord);
             _user2.default.findOne({ token: token }, function (err, currentUser) {
@@ -61,15 +63,11 @@ exports.default = function (socket) {
                         console.log(err.name + ': ' + err.message);
                     }
                     console.log("spots around me and active", spots);
-                    var toFormat = function toFormat(s) {
-                        return {
-                            spot: (0, _format.formatSpot)(s),
-                            selected: false
-                        };
-                    };
-                    var formattedSpots = spots.map(toFormat);
-                    socket.emit("spotsAroundMe", spots ? formattedSpots : spots);
-                    socket.broadcast.emit("spotsAroundMe", spots ? formattedSpots : spots);
+                    var data = spots ? spots.map(function (spot) {
+                        return { spot: (0, _format.formatSpot)(spot), selected: false };
+                    }) : spots;
+                    _server.collection.add(socket);
+                    _server.collection.emit('ON_SPOTS', data);
                 });
             });
         } else {
