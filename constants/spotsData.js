@@ -228,18 +228,18 @@ const generateSpots = () => {
         })
 
         const query10 = {
-            name: 'ici',
+            name: '',
             loc: {
                 type: 'Point',
-                coordinates: [2.371870, 48.862424]
+                coordinates: [2.371842, 48.860442]
             },
         }
 
         const newData10 = {
-            name: 'ici',
+            name: '',
             loc: {
                 type: 'Point',
-                coordinates: [2.371870, 48.862424]
+                coordinates: [2.371842, 48.860442]
            
             },
             dateSave: moment(),
@@ -253,18 +253,17 @@ const generateSpots = () => {
         })
 
         const query11 = {
-            name: 'la',
+            name: '',
             loc: {
                 type: 'Point',
-                coordinates: [2.372125, 48.861286]
+                coordinates: [2.370864, 48.858707]
             },
         }
-
         const newData11 = {
-            name: 'la',
+            name: '',
             loc: {
                 type: 'Point',
-                coordinates: [2.372125, 48.861286]
+                coordinates: [2.370864, 48.858707]
             },
             dateSave: moment(),
             active: true
@@ -277,18 +276,18 @@ const generateSpots = () => {
         })
 
         const query12 = {
-            name: 'et la',
+            name: '',
             loc: {
                 type: 'Point',
-                coordinates: [2.374507, 48.861291]
+                coordinates: [2.369335, 48.858852]
             },
         }
-
+        
         const newData12 = {
-            name: 'et la',
+            name: '',
             loc: {
                 type: 'Point',
-                coordinates: [2.374507, 48.861291]
+                coordinates: [2.369335, 48.858852]
             },
             dateSave: moment(),
             active: true
