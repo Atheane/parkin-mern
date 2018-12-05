@@ -52,7 +52,7 @@ exports.default = function (socket) {
                         console.log(err.name + ': ' + err.message);
                       }
                       if (spot) {
-                        var shouldPushANotification = (0, _geodist2.default)({ lat: userPosition.latitude, lon: userPosition.longitude }, { lat: spot.loc.coordinates[1], lon: spot.loc.coordinates[0] }, { unit: 'meters', limit: 20 });
+                        var shouldPushANotification = (0, _geodist2.default)({ lat: userPosition.latitude, lon: userPosition.longitude }, { lat: spot.loc.coordinates[1], lon: spot.loc.coordinates[0] }, { unit: 'meters', limit: 50 });
                         var counter = 0;
                         if (shouldPushANotification && counter === 0) {
                           counter += 1;

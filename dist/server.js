@@ -97,11 +97,6 @@ io.on('connection', function (socket) {
     (0, _onSelectSpot2.default)(socket, collection);
     (0, _onDeleteSpot2.default)(socket);
     (0, _onGiveSpot2.default)(socket);
-
-    socket.on('disconnected', function () {
-        console.log('A client just disconnected', socket.id);
-        collection.remove(socket);
-    });
 });
 
 app.set('port', port);

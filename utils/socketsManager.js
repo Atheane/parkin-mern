@@ -8,6 +8,7 @@ Sockets.prototype.add = function(socket) {
   var self = this;
   socket.on('disconnect', function() {
     self.remove(socket);
+    console.log(socket.id, 'disconnected, removed from collection')
   });
 }
 Sockets.prototype.remove = function(socket) {
