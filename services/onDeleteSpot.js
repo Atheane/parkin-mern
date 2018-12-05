@@ -2,10 +2,11 @@ import moment from 'moment'
 import User from '../models/user'
 import Spot from '../models/spot'
 import { formatSpot } from '../utils/format'
+import { collection } from '../server.js'
 
 export default (socket) => {
-    socket.on("deleteSpot", ({coord, token}) => {
-        console.log("listen on deleteSpot")
+    socket.on("EMIT_DELETESPOT", ({coord, token}) => {
+        console.log("listen on EMIT_DELETESPOT")
         if (coord && token) {
             console.log('coord', coord)
             User.findOne({ token }, (err, currentUser) => {
@@ -40,15 +41,11 @@ export default (socket) => {
                     (err,spots) => {
                         if (err) {console.log(err.name + ': ' + err.message) }
                         console.log("spots around me and active", spots)
-                        const toFormat = (s) => {
-                          return {
-                            spot: formatSpot(s),
-                            selected: false
-                          }
-                        }
-                        const formattedSpots = spots.map(toFormat)
-                        socket.emit("spotsAroundMe", (spots) ? formattedSpots : spots)
-                        socket.broadcast.emit("spotsAroundMe", (spots) ? formattedSpots : spots)
+                        const data = (spots) ? spots.map(spot => {
+                            return {spot: formatSpot(spot), selected: false}
+                        }) : spots
+                        collection.add(socket)
+                        collection.emit('ON_SPOTS', data)
                     }
                 )
             })

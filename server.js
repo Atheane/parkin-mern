@@ -54,10 +54,6 @@ io.on('connection', (socket => {
     onDeleteSpot(socket)
     onGiveSpot(socket)
 
-    socket.on('disconnected', () => {
-        console.log('A client just disconnected', socket.id)
-        collection.remove(socket)
-    })
 }))
 
 
