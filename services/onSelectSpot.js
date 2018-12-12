@@ -29,9 +29,9 @@ export default (socket) => {
                     console.log(spot, "updated with success")
                     socket.emit("ON_SPOTS", [{ spot: formatSpot(spot), selected: true }])
                     collection.remove(socket)
+                    collection.emit('ON_DELETESPOT', {spot: formatSpot(spot)})
                 })
 
-                collection.emit('ON_SPOTS', data)
 
             })
         } else {
