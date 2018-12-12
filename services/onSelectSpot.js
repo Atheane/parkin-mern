@@ -30,31 +30,9 @@ export default (socket) => {
                     socket.emit("ON_SPOTS", [{ spot: formatSpot(spot), selected: true }])
                     collection.remove(socket)
                 })
-         
-                Spot.aggregate(
-                    [
-                        { "$geoNear": {
-                            "near": {
-                                "type": "Point",
-                                "coordinates": currentUser.loc.coordinates
-                            },
-                            "distanceField": "distance",
-                            "spherical": true,
-                            "maxDistance": 800
-                        }},
-                        {"$match": {"active": true}}
-                    ],
-                    (err,spots) => {
-                        if (err) {console.log(err.name + ': ' + err.message) }
-                        console.log("spots around me and active", spots)
-                        const data = (spots) ? spots.map(spot => {
-                            return {spot: formatSpot(spot), selected: false}
-                        }) : spots
 
-                        collection.emit('ON_SPOTS', data)
+                collection.emit('ON_SPOTS', data)
 
-                    }
-                )
             })
         } else {
             console.log("on EMIT_SELECTSPOT, no coordinates received from front", socket.id)

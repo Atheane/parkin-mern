@@ -2,7 +2,7 @@ import moment from 'moment'
 import User from '../models/user'
 import Spot from '../models/spot'
 import { formatSpot } from '../utils/format'
-import { collection } from '../server.js'
+import { collection } from '../server'
 
 export default (socket) => {
     socket.on("EMIT_DELETESPOT", ({coord, token}) => {
