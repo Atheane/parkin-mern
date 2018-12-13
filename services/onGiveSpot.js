@@ -29,7 +29,7 @@ export default (socket) => {
                     }
                 })
 
-                collection.emit('NEW_SPOT', {
+                collection.emit('ON_NEWSPOT', {
                     spot: {
                         name: `@${currentUser.name}`,
                         coords: {
