@@ -34,7 +34,7 @@ exports.default = function (socket) {
                 if (err) {
                     console.log(err.name + ': ' + err.message);
                 }
-                console.log("user here here here", currentUser);
+                console.log("user:", currentUser);
 
                 var query = {
                     loc: {
@@ -46,6 +46,7 @@ exports.default = function (socket) {
                     dateSave: (0, _moment2.default)(),
                     active: false,
                     assignedToUser: token // to-do if two people ask at the same place exactly and the sale time exactly, we may have pb
+
                 };_spot2.default.findOneAndUpdate(query, newData, { upsert: true }, function (err, spot) {
                     if (err) {
                         console.log(err.name + ': ' + err.message);
@@ -53,26 +54,7 @@ exports.default = function (socket) {
                     console.log(spot, "updated with success");
                     socket.emit("ON_SPOTS", [{ spot: (0, _format.formatSpot)(spot), selected: true }]);
                     _server.collection.remove(socket);
-                });
-
-                _spot2.default.aggregate([{ "$geoNear": {
-                        "near": {
-                            "type": "Point",
-                            "coordinates": currentUser.loc.coordinates
-                        },
-                        "distanceField": "distance",
-                        "spherical": true,
-                        "maxDistance": 800
-                    } }, { "$match": { "active": true } }], function (err, spots) {
-                    if (err) {
-                        console.log(err.name + ': ' + err.message);
-                    }
-                    console.log("spots around me and active", spots);
-                    var data = spots ? spots.map(function (spot) {
-                        return { spot: (0, _format.formatSpot)(spot), selected: false };
-                    }) : spots;
-
-                    _server.collection.emit('ON_SPOTS', data);
+                    _server.collection.emit('ON_DELETESPOT', { spot: (0, _format.formatSpot)(spot) });
                 });
             });
         } else {

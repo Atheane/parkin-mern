@@ -18,7 +18,7 @@ var _spot2 = _interopRequireDefault(_spot);
 
 var _format = require('../utils/format');
 
-var _server = require('../server.js');
+var _server = require('../server');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

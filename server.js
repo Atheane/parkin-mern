@@ -53,7 +53,6 @@ io.on('connection', (socket => {
     onSelectSpot(socket, collection)
     onDeleteSpot(socket)
     onGiveSpot(socket)
-
 }))
 
 

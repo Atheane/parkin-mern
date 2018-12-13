@@ -1,59 +1,48 @@
 import moment from 'moment'
 import User from '../models/user'
 import Spot from '../models/spot'
-import { formatSpot } from '../utils/format'
+import { collection } from '../server'
 
 export default (socket) => {
-    socket.on("giveSpot", ({coord, token}) => {
-        console.log("listen on giveSpot")
+    socket.on("EMIT_GIVESPOT", ({coord, token}) => {
+        console.log("listen on EMIT_GIVESPOT")
         if (coord && token) {
             console.log('coord', coord)
             User.findOne({ token }, (err, currentUser) => {
                 if (err) {console.log(err.name + ': ' + err.message) }
-                console.log("user here here here", currentUser)
+                console.log("user:", currentUser)
              
                 const query =  {
                     loc: {
                         type: 'Point',
                         coordinates: [ coord.longitude, coord.latitude] 
                     },
-                    active: true
+                    active: true,
+                    givenBy: token
                 }
+
                 Spot.create(query, (err) => {
-                    if (err) {console.log(err.name + ': ' + err.message) }
-                    console.log("given with success")
-                })
-         
-                Spot.aggregate(
-                    [
-                        { "$geoNear": {
-                            "near": {
-                                "type": "Point",
-                                "coordinates": currentUser.loc.coordinates
-                            },
-                            "distanceField": "distance",
-                            "spherical": true,
-                            "maxDistance": 800
-                        }},
-                        {"$match": {"active": true}}
-                    ],
-                    (err,spots) => {
-                        if (err) {console.log(err.name + ': ' + err.message) }
-                        console.log("spots around me and active", spots)
-                        const toFormat = (s) => {
-                          return {
-                            spot: formatSpot(s),
-                            selected: false
-                          }
-                        }
-                        const formattedSpots = spots.map(toFormat)
-                        socket.emit("spotsAroundMe", (spots) ? formattedSpots : spots)
-                        socket.broadcast.emit("spotsAroundMe", (spots) ? formattedSpots : spots)
+                    if (err) {
+                        console.log(err.name + ': ' + err.message)
+                    } else {
+                        console.log("given with success")
                     }
+                })
+
+                collection.emit('ON_NEWSPOT', {
+                    spot: {
+                        name: `@${currentUser.name}`,
+                        coords: {
+                            latitude: coord.latitude,
+                            longitude: coord.longitude
+                        }
+                    },
+                    selected: false
+                  }
                 )
             })
         } else {
-            console.log("on giveSpot, no coordinates received from front", socket.id)
+            console.log("on EMIT_GIVESPOT, no coordinates received from front", socket.id)
         }
     })
 }
