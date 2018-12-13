@@ -16,8 +16,6 @@ var _spot = require('../models/spot');
 
 var _spot2 = _interopRequireDefault(_spot);
 
-var _format = require('../utils/format');
-
 var _server = require('../server');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -53,28 +51,15 @@ exports.default = function (socket) {
                     }
                 });
 
-                _spot2.default.aggregate([{ "$geoNear": {
-                        "near": {
-                            "type": "Point",
-                            "coordinates": currentUser.loc.coordinates
-                        },
-                        "distanceField": "distance",
-                        "spherical": true,
-                        "maxDistance": 800
-                    } }, { "$match": { "active": true } }], function (err, spots) {
-                    if (err) {
-                        console.log(err.name + ': ' + err.message);
-                    }
-                    console.log("spots around me and active", spots);
-                    var toFormat = function toFormat(s) {
-                        return {
-                            spot: (0, _format.formatSpot)(s),
-                            selected: false
-                        };
-                    };
-                    var formattedSpots = spots.map(toFormat);
-                    var data = spots ? formattedSpots : spots;
-                    _server.collection.emit('ON_SPOTS', data);
+                _server.collection.emit('ON_NEWSPOT', {
+                    spot: {
+                        name: '@' + currentUser.name,
+                        coords: {
+                            latitude: coord.latitude,
+                            longitude: coord.longitude
+                        }
+                    },
+                    selected: false
                 });
             });
         } else {
