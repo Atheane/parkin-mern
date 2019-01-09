@@ -96,6 +96,27 @@ export default (socket) => {
               // retrieveErrors()
               // }
             } else {
+              Spot.aggregate(
+                [  
+                    { "$geoNear": {
+                        "near": {
+                            "type": "Point",
+                            "coordinates": user.loc.coordinates
+                        },
+                        "distanceField": "distance",
+                        "spherical": true,
+                        "maxDistance": 800
+                    }},
+                    {"$match": {"active": true}},
+                ],
+                (err,spots) => {
+                    if (err) {console.log(err.name + ': ' + err.message) }
+                    console.log("spots around me and active", spots)
+                    socket.emit("ON_SPOTS", (spots) ? spots.map(spot => {
+                        return {spot: formatSpot(spot), selected: false}
+                    }) : spots)
+                }
+            )
               console.log("on EMIT_MOVINGUSERPOSITION, No spot assined to user", user)
             }
           })
